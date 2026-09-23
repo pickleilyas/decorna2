@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+.venv/
+venv/
+ENV/
+
+# Archives & Temp
+*.zip
+*.tar.gz
+
+# Database (optional - uncomment if you want the db committed)
+# backend/decorna.db

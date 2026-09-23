@@ -1,0 +1,1409 @@
+:root{
+    --ink:#1C2418;
+    --canopy:#2C4A30;
+    --canopy-dark:#1F3622;
+    --teal-deep:#2E7873;
+    --teal:#86CAC9;
+    --leaf:#09BC61;
+    --leaf-deep:#078C49;
+    --leaf-deeper:#056B38;
+    --sage:#AABFA0;
+    --kraft:#E1CFA8;
+    --kraft-dark:#B89B6E;
+    --paper:#F6F2E7;
+    --paper-deep:#EFE7D5;
+    --white:#FFFCF6;
+    --clay:#A4503A;
+    --sky-blue:#0284c7;
+    --sky-blue-deep:#0369a1;
+    --muted-text:#48533f;
+    --muted-text-2:#7a8272;
+    --disabled-text:#9a9a8f;
+    --shadow: 0 6px 18px rgba(28,36,24,0.12);
+    --radius: 14px;
+    --maxw: 1180px;
+  }
+
+  /* ================= DARK MODE ================= */
+  html[data-theme="dark"]{
+    --ink:#EDEDE3;
+    --canopy:#3F6B46;
+    --canopy-dark:#B9D9B0;
+    --teal-deep:#5FC2BA;
+    --teal:#9FDEDC;
+    --leaf:#3ED686;
+    --leaf-deep:#2CCB7A;
+    --leaf-deeper:#1FA85E;
+    --sage:#B9D0B0;
+    --kraft:#3A2F1E;
+    --kraft-dark:#8a7550;
+    --paper:#141C13;
+    --paper-deep:#1D2A1B;
+    --white:#202B1F;
+    --clay:#D08567;
+    --sky-blue:#38bdf8;
+    --sky-blue-deep:#0ea5e9;
+    --muted-text:#C7CFC0;
+    --muted-text-2:#9AA592;
+    --disabled-text:#6b7267;
+    --shadow: 0 6px 20px rgba(0,0,0,0.45);
+  }
+
+  /* Smooth crossfade whenever the theme is switched (other elements already
+     define their own transition property list further down, which would
+     otherwise silently override this one, so we keep this scoped to plain
+     elements that have no conflicting transition rule of their own) */
+  body, input, textarea, select, .site-header, .auth-card, footer.site-footer{
+    transition:background-color .35s ease, color .35s ease, border-color .35s ease;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* ---------- Site-wide Moroccan zellige star pattern (original artwork,
+     not a stock photo) — a soft tinted texture sitting behind every page.
+     Solid-background elements (header, cards, footer) naturally paint over
+     it since it lives on a fixed layer at z-index:-1. ---------- */
+  body::before{
+    content:"";
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background-color:var(--kraft-dark);
+    -webkit-mask-image:url("assets/patterns/zellige-mask.svg");
+    mask-image:url("assets/patterns/zellige-mask.svg");
+    -webkit-mask-repeat:repeat; mask-repeat:repeat;
+    -webkit-mask-size:220px 220px; mask-size:220px 220px;
+    opacity:.07;
+  }
+  html[data-theme="dark"] body::before{
+    background-color:var(--teal);
+    opacity:.05;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces',serif;
+    margin:0 0 .4em 0;
+    line-height:1.1;
+    color:var(--canopy-dark);
+    font-weight:600;
+  }
+  p{margin:0 0 1em 0;}
+  a{color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  .mono{font-family:'Space Mono',monospace;}
+  img,svg{display:block;}
+  :focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;scroll-behavior:auto !important;}
+  }
+
+  /* ---------- LOADER ---------- */
+  #loader{
+    position:fixed;inset:0;z-index:999;
+    background:var(--paper);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:14px;
+    transition:opacity .6s ease, visibility .6s ease;
+  }
+  #loader.hide{opacity:0;visibility:hidden;pointer-events:none;}
+  .logo-lockup{display:flex;align-items:center;gap:10px;}
+  .loader-mark{position:relative;width:130px;height:130px;display:flex;align-items:center;justify-content:center;margin-bottom:4px;}
+  .loader-ring{
+    position:absolute;inset:0;
+    border-radius:50%;
+    border:4px solid var(--kraft);
+    border-top-color:var(--canopy);
+    animation:spin 1s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .loader-text{font-family:'Space Mono',monospace;letter-spacing:.12em;text-transform:uppercase;font-size:13px;color:var(--canopy-dark);}
+
+  /* ---------- LOGO MARK (shared) ---------- */
+  .mark{display:block;}
+
+  /* ---------- HEADER / NAV ---------- */
+  .site-header{
+    position:sticky;top:0;z-index:60;
+    background:var(--paper);
+    border-bottom:2px solid var(--kraft-dark);
+  }
+  .header-inner{
+    max-width:var(--maxw);margin:0 auto;
+    display:flex;align-items:center;gap:22px;
+    padding:12px 28px;
+  }
+  .logo-btn{
+    display:flex;align-items:center;gap:10px;
+    background:none;border:none;padding:4px;
+  }
+  .logo-wordmark{font-family:'Fraunces',serif;font-weight:600;font-size:1.3rem;color:var(--canopy-dark);}
+  .main-nav{
+    display:flex;gap:6px;margin-left:12px;flex:1;
+  }
+  .main-nav button{
+    background:none;border:none;
+    padding:13px 20px;border-radius:999px;
+    font-size:1.05rem;font-weight:600;color:var(--canopy);
+    position:relative;
+  }
+  .main-nav button:hover{background:var(--paper-deep);}
+  .main-nav button.active{background:var(--canopy);color:var(--white);}
+  .header-actions{display:flex;align-items:center;gap:10px;}
+  .lang-switch{
+    display:flex;align-items:center;
+    background:var(--paper-deep);border-radius:999px;
+    padding:4px;gap:2px;
+  }
+  .lang-opt{
+    background:none;border:none;
+    font-family:'Space Mono',monospace;font-size:.8rem;font-weight:700;
+    letter-spacing:.04em;color:var(--canopy-dark);
+    padding:7px 13px;border-radius:999px;
+    transition:background .15s ease, color .15s ease;
+  }
+  .lang-opt:hover{color:var(--canopy);}
+  .lang-opt.active{background:var(--canopy);color:var(--white);}
+  @media (max-width:480px){
+    .lang-opt{padding:6px 9px;font-size:.68rem;}
+    .logo-btn img{ height:60px !important; }
+  }
+  .icon-btn{
+    background:var(--paper-deep);border:2px solid transparent;
+    width:48px;height:48px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--canopy-dark);position:relative;
+  }
+  .icon-btn svg{ width:22px; height:22px; }
+  .icon-btn:hover{border-color:var(--kraft-dark);}
+  .icon-btn.active{background:var(--canopy);color:var(--white);}
+  .badge{
+    position:absolute;top:-4px;right:-4px;
+    background:var(--leaf-deep);color:var(--white);
+    font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;
+    min-width:18px;height:18px;border-radius:999px;
+    display:flex;align-items:center;justify-content:center;
+    padding:0 4px;border:2px solid var(--paper);
+  }
+  .hamburger{display:none;background:none;border:none;color:var(--canopy-dark);}
+  .ham-line{ transform-origin:center; transition:transform .3s cubic-bezier(.2,.7,.2,1), opacity .2s ease; }
+  .hamburger[aria-expanded="true"] .ham-1{ transform:translateY(6px) rotate(45deg); }
+  .hamburger[aria-expanded="true"] .ham-2{ opacity:0; }
+  .hamburger[aria-expanded="true"] .ham-3{ transform:translateY(-6px) rotate(-45deg); }
+
+  @media (max-width:860px){
+    .main-nav{
+      display:flex;position:absolute;top:100%;left:0;right:0;
+      background:var(--paper);border-bottom:2px solid var(--kraft-dark);
+      flex-direction:column;padding:0 20px;gap:2px;
+      max-height:0;overflow:hidden;opacity:0;
+      transition:max-height .35s cubic-bezier(.2,.7,.2,1), opacity .25s ease, padding .35s ease;
+    }
+    .main-nav.open{max-height:400px;opacity:1;padding:10px 20px 16px;}
+    .main-nav button{text-align:left;width:100%;}
+    .main-nav.open .nav-link{ animation:decornaWordIn .35s cubic-bezier(.2,.7,.2,1) both; }
+    .main-nav.open .nav-link:nth-child(1){animation-delay:.04s;}
+    .main-nav.open .nav-link:nth-child(2){animation-delay:.09s;}
+    .main-nav.open .nav-link:nth-child(3){animation-delay:.14s;}
+    .main-nav.open .nav-link:nth-child(4){animation-delay:.19s;}
+    .hamburger{display:flex;align-items:center;justify-content:center;width:48px;height:48px;}
+  }
+  @keyframes decornaWordIn{ from{ opacity:0; transform:translateY(-6px); } to{ opacity:1; transform:translateY(0); } }
+
+  /* ---------- LAYOUT / VIEWS ---------- */
+  main{max-width:var(--maxw);margin:0 auto;padding:0 20px;}
+  .view{display:none;padding:48px 0 70px;}
+  .view.active{display:block;animation:fadein .4s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+  .eyebrow{
+    font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.14em;
+    font-size:.75rem;color:var(--teal-deep);font-weight:700;margin-bottom:10px;display:block;
+  }
+
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    border-radius:999px;padding:13px 26px;font-weight:600;font-size:.95rem;
+    border:2px solid transparent;transition:transform .15s ease, background .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--leaf-deep);color:var(--white);}
+  .btn-primary:hover{background:var(--leaf-deeper);}
+  .btn-outline{background:transparent;border-color:var(--canopy);color:var(--canopy-dark);}
+  .btn-outline:hover{background:var(--paper-deep);}
+  .btn-block{width:100%;justify-content:center;}
+
+  /* ---------- HOME ---------- */
+  .hero{
+    display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;
+  }
+  .hero h1{font-size:clamp(2.1rem,4vw,3.1rem);}
+  .hero .lede{font-size:1.08rem;color:var(--ink);max-width:46ch;}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;}
+  .hero-art{
+    position:relative;background:transparent;border-radius:24px;
+    aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;
+    border:none;
+  }
+  .stamp{
+    font-family:'Space Mono',monospace;text-transform:uppercase;
+    width:148px;height:148px;border-radius:50%;
+    border:2px dashed var(--canopy);
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    color:var(--canopy-dark);font-weight:700;font-size:.72rem;letter-spacing:.05em;
+    transform:rotate(-12deg);
+    background:var(--paper);
+    line-height:1.3;padding:10px;
+  }
+  .stamp span{display:block;}
+  .stamp .big{font-size:1.05rem;}
+
+  .stats-row{display:flex;gap:36px;margin-top:42px;flex-wrap:wrap;border-top:2px solid var(--kraft-dark);padding-top:28px;}
+  .stat strong{display:block;font-family:'Fraunces',serif;font-size:clamp(2.6rem,5vw,3.6rem);line-height:1;color:var(--canopy-dark);}
+  .stat span{font-family:'Space Mono',monospace;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--teal-deep);margin-top:6px;display:inline-block;}
+
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin:64px 0 24px;flex-wrap:wrap;}
+  .section-head h2{font-size:1.8rem;}
+
+  .mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;}
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr;}
+    .hero-art{max-width:320px;margin:0 auto;}
+  }
+
+  /* ---------- PRODUCTS ---------- */
+  .products-toolbar{
+    display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:22px;
+  }
+  .search-wrap{
+    flex:1;min-width:220px;position:relative;
+    background:var(--white);border:2px solid var(--kraft-dark);border-radius:999px;
+    display:flex;align-items:center;padding:0 16px;
+  }
+  .search-wrap svg{flex-shrink:0;color:var(--teal-deep);}
+  .search-wrap input{
+    border:none;background:none;padding:13px 10px;flex:1;font-size:.95rem;color:var(--ink);font-family:inherit;
+  }
+  .search-wrap input:focus{outline:none;}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{
+    background:var(--paper-deep);border:2px solid transparent;border-radius:999px;
+    padding:9px 16px;font-size:.85rem;font-weight:600;color:var(--canopy-dark);
+  }
+  .chip:hover{border-color:var(--kraft-dark);}
+  .chip.active{background:var(--canopy);color:var(--white);}
+
+  .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;margin-top:8px;}
+  .product-card{
+    background:var(--white);border-radius:var(--radius);border:2px solid var(--paper-deep);
+    padding:18px;position:relative;display:flex;flex-direction:column;gap:10px;
+    box-shadow:var(--shadow);transition:transform .15s ease,border-color .15s ease;
+  }
+  .product-card:hover{transform:translateY(-4px);border-color:var(--kraft-dark);}
+  .product-thumb{
+    background:var(--paper-deep);border-radius:10px;aspect-ratio:1/1;
+    display:flex;align-items:center;justify-content:center;color:var(--canopy);
+    position:relative;overflow:hidden;
+  }
+  .material-tag{
+    position:absolute;top:8px;right:8px;
+    background:var(--kraft);border:1px dashed var(--kraft-dark);border-radius:999px;
+    font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;color:var(--canopy-dark);
+    padding:4px 9px;text-transform:uppercase;letter-spacing:.03em;
+  }
+  .product-card h3{font-size:1.05rem;margin-bottom:2px;}
+  .product-desc{font-size:.85rem;color:var(--muted-text);flex:1;}
+  .product-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px;}
+  .price{font-family:'Space Mono',monospace;font-weight:700;color:var(--canopy-dark);font-size:1.05rem;}
+  .add-btn{
+    background:var(--leaf-deep);color:var(--white);border:none;border-radius:999px;
+    padding:9px 16px;font-weight:600;font-size:.85rem;display:flex;align-items:center;gap:6px;
+  }
+  .add-btn:hover{background:var(--leaf-deeper);}
+  .empty-state{
+    text-align:center;padding:60px 20px;color:var(--teal-deep);
+    background:var(--paper-deep);border-radius:var(--radius);border:2px dashed var(--kraft-dark);
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-intro{max-width:68ch;}
+  .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:30px;position:relative;}
+  .steps-grid::before{
+    content:'';position:absolute;top:34px;left:6%;right:6%;height:2px;
+    background:linear-gradient(90deg, var(--teal-deep), var(--leaf-deep));
+    transform:scaleX(0);transform-origin:left center;
+    transition:transform 1.1s cubic-bezier(.2,.7,.2,1);
+    z-index:0;
+  }
+  .steps-grid.in-view::before{ transform:scaleX(1); }
+  .step-card{
+    background:var(--white);border:2px solid var(--paper-deep);border-radius:var(--radius);
+    padding:20px;box-shadow:var(--shadow);position:relative;z-index:1;
+    transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .35s ease;
+  }
+  .step-card:hover{
+    transform:translateY(-8px) scale(1.02);
+    box-shadow:0 20px 32px rgba(28,36,24,.2);
+    border-color:var(--teal-deep);
+  }
+  .step-card:hover .step-num{ transform:scale(1.15) rotate(-6deg); color:var(--leaf-deep); }
+  .step-num{
+    font-family:'Space Mono',monospace;color:var(--kraft-dark);font-weight:700;font-size:1.1rem;
+    display:inline-block;transition:transform .35s cubic-bezier(.34,1.56,.64,1), color .35s ease;
+  }
+  .step-card h4{font-size:1rem;margin:8px 0 6px;}
+  .step-card p{font-size:.85rem;color:var(--muted-text);margin:0;}
+  .about-credit{
+    margin-top:46px;background:var(--canopy);color:var(--paper);border-radius:var(--radius);
+    padding:30px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;
+  }
+  .about-credit h3{color:var(--white);font-size:1.2rem;}
+  .about-credit p{color:var(--sage);margin:0;font-size:.92rem;}
+  @media (max-width:860px){.steps-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:520px){.steps-grid{grid-template-columns:1fr;}}
+
+  /* ---------- PROFILE ---------- */
+  .profile-wrap{max-width:440px;margin:0 auto;}
+  .auth-card{background:var(--white);border:2px solid var(--paper-deep);border-radius:var(--radius);padding:30px;box-shadow:var(--shadow);}
+  .auth-tabs{display:flex;background:var(--paper-deep);border-radius:999px;padding:4px;margin-bottom:22px;}
+  .auth-tabs button{flex:1;background:none;border:none;border-radius:999px;padding:10px;font-weight:600;color:var(--canopy-dark);}
+  .auth-tabs button.active{background:var(--canopy);color:var(--white);}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:.82rem;font-weight:600;color:var(--canopy-dark);margin-bottom:6px;}
+  .field input{
+    width:100%;padding:12px 14px;border-radius:10px;border:2px solid var(--paper-deep);
+    font-family:inherit;font-size:.95rem;background:var(--paper);color:var(--ink);
+  }
+  .field input:focus{outline:none;border-color:var(--teal-deep);}
+  .auth-form{display:none;}
+  .auth-form.active{display:block;}
+  .account-card{text-align:center;}
+  .avatar-circle{
+    width:72px;height:72px;border-radius:50%;background:var(--teal);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 14px;
+    font-family:'Fraunces',serif;font-size:1.6rem;color:var(--canopy-dark);font-weight:600;
+  }
+  .order-empty{
+    margin-top:18px;background:var(--paper-deep);border-radius:10px;border:2px dashed var(--kraft-dark);
+    padding:20px;font-size:.85rem;color:var(--teal-deep);
+  }
+
+  /* ---------- FOOTER ---------- */
+  .site-footer{background:var(--canopy-dark);color:var(--paper);margin-top:40px;}
+  .footer-inner{
+    max-width:var(--maxw);margin:0 auto;padding:44px 20px 26px;
+    display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;
+  }
+  .footer-brand .logo-wordmark{color:var(--white);}
+  .footer-brand p{color:var(--sage);max-width:34ch;font-size:.88rem;margin-top:8px;}
+  .footer-contact{display:flex;flex-direction:column;gap:12px;}
+  .contact-link{
+    display:flex;align-items:center;gap:10px;font-size:.92rem;color:var(--paper);text-decoration:none;
+  }
+  .contact-link .ic{
+    width:34px;height:34px;border-radius:50%;background:var(--canopy);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--white);
+  }
+  .contact-link:hover{color:var(--teal);}
+  .footer-bottom{
+    text-align:center;font-size:.78rem;color:var(--sage);
+    border-top:1px solid rgba(246,242,231,0.15);padding:18px 20px 24px;
+  }
+
+  /* ---------- TOAST ---------- */
+  #toast{
+    position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(24px) scale(.92);
+    background:var(--canopy-dark);color:var(--white);padding:13px 22px;border-radius:999px;
+    font-size:.9rem;font-weight:600;box-shadow:var(--shadow);
+    opacity:0;pointer-events:none;transition:opacity .35s ease, transform .45s cubic-bezier(.34,1.56,.64,1);z-index:300;
+  }
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0) scale(1);}
+
+  /* ---------- CART DRAWER ---------- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(28,36,24,0.45);z-index:120;
+    opacity:0;visibility:hidden;transition:opacity .25s ease, visibility .25s ease;
+  }
+  .overlay.show{opacity:1;visibility:visible;}
+  .drawer{
+    position:fixed;top:0;right:0;height:100%;width:min(400px,100%);
+    background:var(--paper);z-index:130;box-shadow:-8px 0 24px rgba(0,0,0,.18);
+    transform:translateX(100%);transition:transform .38s cubic-bezier(.16,1,.3,1);
+    display:flex;flex-direction:column;
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 20px;border-bottom:2px solid var(--paper-deep);
+  }
+  .drawer-head h3{font-size:1.15rem;margin:0;}
+  .icon-x{background:none;border:none;color:var(--canopy-dark);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  .icon-x:hover{background:var(--paper-deep);}
+  .drawer-body{flex:1;overflow-y:auto;padding:14px 20px;}
+  .cart-row{display:flex;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--paper-deep);}
+  .cart-thumb{width:54px;height:54px;border-radius:8px;background:var(--paper-deep);display:flex;align-items:center;justify-content:center;color:var(--canopy);flex-shrink:0;}
+  .cart-info{flex:1;min-width:0;}
+  .cart-info h4{font-size:.92rem;margin:0 0 2px;font-family:'Inter',sans-serif;font-weight:600;color:var(--ink);}
+  .cart-info .price{font-size:.85rem;}
+  .qty-control{display:flex;align-items:center;gap:8px;margin-top:6px;}
+  .qty-control button{
+    width:24px;height:24px;border-radius:50%;border:2px solid var(--kraft-dark);background:var(--white);
+    display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--canopy-dark);line-height:1;
+  }
+  .qty-control span{font-family:'Space Mono',monospace;font-size:.85rem;min-width:16px;text-align:center;}
+  .remove-btn{background:none;border:none;color:var(--clay);font-size:.78rem;font-weight:700;text-decoration:underline;margin-top:6px;}
+  .drawer-foot{padding:18px 20px;border-top:2px solid var(--paper-deep);}
+  .total-row{display:flex;justify-content:space-between;font-weight:700;margin-bottom:14px;font-size:1.05rem;}
+
+  /* ---------- DECO CHATBOT (modern AI-assistant look) ---------- */
+  .deco-btn{
+    position:fixed;bottom:24px;left:24px;z-index:150;
+    width:60px;height:60px;border-radius:50%;
+    background:linear-gradient(145deg, var(--leaf-deep), var(--teal-deep) 130%);
+    color:var(--white);
+    border:none;box-shadow:0 10px 26px rgba(9,140,73,.4);
+    display:flex;align-items:center;justify-content:center;
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(9,188,97,.35), 0 10px 26px rgba(9,140,73,.4);}50%{box-shadow:0 0 0 11px rgba(9,188,97,0), 0 10px 26px rgba(9,140,73,.4);}}
+  .deco-btn:hover{transform:scale(1.06);}
+  .deco-panel{
+    position:fixed;bottom:96px;left:24px;z-index:150;
+    width:368px;max-height:66vh;
+    background:var(--white);
+    border-radius:22px;
+    box-shadow:0 24px 60px rgba(20,26,18,.28);
+    display:flex;flex-direction:column;overflow:hidden;
+    transform:scale(.92) translateY(10px);opacity:0;pointer-events:none;
+    transition:transform .25s cubic-bezier(.2,.8,.2,1), opacity .2s ease;
+    border:1px solid rgba(28,36,24,.08);
+  }
+  .deco-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:auto;}
+  .deco-head{
+    background:linear-gradient(120deg, var(--canopy-dark), var(--teal-deep) 140%);
+    color:var(--white);padding:16px 16px;display:flex;align-items:center;gap:11px;
+    position:relative;
+  }
+  .deco-avatar{
+    width:38px;height:38px;border-radius:50%;
+    background:linear-gradient(145deg, var(--leaf), var(--teal) 130%);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    box-shadow:0 0 0 3px rgba(255,252,246,.18);
+    position:relative;
+  }
+  .deco-status-dot{
+    position:absolute;bottom:-1px;right:-1px;width:11px;height:11px;border-radius:50%;
+    background:var(--leaf);border:2px solid var(--canopy-dark);
+  }
+  .deco-head .who{flex:1;}
+  .deco-head .who strong{display:block;font-size:.96rem;letter-spacing:.01em;}
+  .deco-head .who span{display:block;font-size:.72rem;color:rgba(255,252,246,.75);}
+  .deco-head .icon-x:hover{background:rgba(255,252,246,.18);}
+  .deco-messages{
+    flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(9,188,97,.05), transparent 45%),
+      var(--paper);
+  }
+  .msg{max-width:86%;padding:11px 15px;border-radius:16px;font-size:.87rem;line-height:1.48;}
+  .msg.bot{
+    background:var(--white);color:var(--ink);align-self:flex-start;border-bottom-left-radius:5px;
+    box-shadow:0 2px 10px rgba(28,36,24,.07);border:1px solid rgba(28,36,24,.06);
+  }
+  .msg.user{
+    background:linear-gradient(135deg, var(--canopy), var(--canopy-dark));
+    color:var(--white);align-self:flex-end;border-bottom-right-radius:5px;
+    box-shadow:0 2px 10px rgba(28,36,24,.12);
+  }
+  .deco-quick{display:flex;flex-wrap:wrap;gap:7px;padding:0 16px 12px;background:var(--paper);}
+  .deco-quick button{
+    background:var(--white);border:1.5px solid var(--paper-deep);border-radius:999px;
+    padding:7px 13px;font-size:.75rem;font-weight:600;color:var(--canopy-dark);
+    box-shadow:0 1px 4px rgba(28,36,24,.05);
+    transition:background .15s ease, border-color .15s ease, transform .15s ease;
+  }
+  .deco-quick button:hover{background:var(--paper-deep);border-color:var(--teal-deep);}
+  .deco-input{display:flex;gap:9px;padding:13px;border-top:1px solid rgba(28,36,24,.08);background:var(--white);}
+  .deco-input input{
+    flex:1;background:var(--paper);border:1.5px solid var(--paper-deep);border-radius:999px;
+    padding:10px 16px;font-family:inherit;font-size:.86rem;color:var(--ink);transition:border-color .15s ease, background .15s ease;
+  }
+  .deco-input input:focus{outline:none;border-color:var(--teal-deep);background:var(--white);}
+  .deco-send{
+    background:linear-gradient(145deg, var(--leaf-deep), var(--teal-deep) 130%);
+    color:var(--white);border:none;width:40px;height:40px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    box-shadow:0 4px 12px rgba(9,140,73,.35);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .deco-send:hover{transform:scale(1.08);box-shadow:0 6px 16px rgba(9,140,73,.45);}
+  .deco-send:active{transform:scale(.94);}
+
+  @media (max-width:480px){
+    .deco-panel{width:calc(100vw - 32px);left:16px;right:16px;}
+    .deco-btn{left:16px;bottom:16px;}
+  }
+/* Chatbot UI Fix */
+.deco-panel{height:70vh;max-height:70vh;}
+.deco-messages{min-height:220px;}
+.deco-quick{max-height:90px;overflow-y:auto;padding-bottom:12px;}
+.deco-quick button{margin-bottom:4px;}
+/* Gallery */
+.gallery-section{padding:40px 0;text-align:center;}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:20px;}
+.gallery-grid img{width:100%;height:220px;object-fit:cover;border-radius:14px;box-shadow:var(--shadow); transition:transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s ease; cursor:pointer;}
+.gallery-grid img:hover{ transform:scale(1.045) translateY(-4px); box-shadow:0 18px 34px rgba(28,36,24,.22); }
+
+/* ================= DECORNA UPGRADE: animations, product showcase, modal, RTL ================= */
+
+.hero-art{ overflow:visible; }
+.hero-video-frame{
+  position:relative;
+  box-shadow:0 20px 40px rgba(28,36,24,.28);
+  border:3px solid var(--paper);
+  transition:transform .4s cubic-bezier(.2,.7,.2,1);
+  background:var(--canopy-dark);
+}
+.hero-video-frame:hover{ transform:scale(1.02) rotate(-.6deg); }
+.hero-product-video{ display:block; }
+.hero-video-ring{
+  position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  box-shadow:inset 0 0 0 2px rgba(255,252,246,.18);
+  background:linear-gradient(180deg, rgba(20,26,18,.12) 0%, rgba(20,26,18,0) 30%, rgba(20,26,18,0) 65%, rgba(20,26,18,.35) 100%);
+}
+@media (max-width:860px){
+  .hero-video-frame{ max-width:320px; margin:0 auto; }
+}
+.hero-art .stamp{ position:relative; z-index:2; box-shadow:0 8px 24px rgba(28,36,24,.18); }
+
+/* ---------- micro-animations ---------- */
+.btn{ transition:transform .18s ease, box-shadow .18s ease, background-color .18s ease; }
+.btn:hover{ transform:translateY(-2px); box-shadow:0 10px 22px rgba(28,36,24,.18); }
+.btn:active{ transform:translateY(0); }
+
+.product-card{ transition:transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s ease, border-color .2s ease; }
+.product-card:hover{ transform:translateY(-6px) scale(1.015); box-shadow:0 16px 30px rgba(28,36,24,.16); }
+.product-thumb svg{ transition:transform .35s ease; }
+.product-card:hover .product-thumb svg{ transform:scale(1.08) rotate(-2deg); }
+
+.add-btn{ transition:background-color .18s ease, transform .18s ease; }
+.add-btn:active{ transform:scale(.94); }
+
+.chip{ transition:background-color .18s ease, border-color .18s ease, transform .15s ease; }
+.chip:hover{ transform:translateY(-1px); }
+
+@keyframes decornaFadeInUp{ from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
+.hero h1, .hero .lede, .hero-actions, .stats-row{ animation:decornaFadeInUp .8s cubic-bezier(.2,.7,.2,1) both; }
+.hero .lede{ animation-delay:.08s; }
+.hero-actions{ animation-delay:.16s; }
+.stats-row{ animation-delay:.24s; }
+
+/* Loader refinement */
+.loader-ring{ animation:decornaSpin 1s linear infinite; }
+@keyframes decornaSpin{ to{ transform:rotate(360deg); } }
+
+/* ---------- Read more button ---------- */
+.read-more-btn{
+  background:var(--sky-blue, #0284c7); color:var(--white); border:none; border-radius:999px;
+  padding:9px 16px; font-weight:600; font-size:.85rem;
+  display:inline-flex; align-items:center; gap:6px;
+  cursor:pointer; transition:background-color .18s ease, transform .18s ease, box-shadow .18s ease;
+  width:fit-content;
+}
+.read-more-btn:hover{ background:var(--sky-blue-deep); transform:translateY(-1px); box-shadow:0 8px 16px rgba(2,132,199,.35); }
+.read-more-btn:active{ transform:translateY(0) scale(.96); }
+[dir="rtl"] .read-more-btn:hover{ transform:translateY(-1px); }
+.product-thumb{ cursor:pointer; }
+
+/* ---------- Product details page (separate view, not a popup) ---------- */
+.product-page-back{
+  display:inline-flex; align-items:center; gap:7px;
+  font-size:.85rem; font-weight:600; color:var(--muted-text);
+  margin-bottom:22px; padding:0;
+}
+.product-page-back:hover{ color:var(--canopy-dark); }
+.product-page-back svg{ flex-shrink:0; }
+[dir="rtl"] .product-page-back svg{ transform:scaleX(-1); }
+
+.product-page-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start;
+}
+@media (max-width:860px){
+  .product-page-grid{ grid-template-columns:1fr; gap:24px; }
+}
+.product-page-media{
+  background:var(--paper-deep); color:var(--canopy);
+  border-radius:var(--radius); overflow:hidden;
+  aspect-ratio:4/5; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 10px 26px rgba(28,36,24,.14);
+}
+.product-page-media svg{ width:110px; height:110px; }
+.product-page-card{
+  background:var(--white); border-radius:var(--radius);
+  box-shadow:0 10px 26px rgba(28,36,24,.1); border:1px solid var(--paper-deep);
+  padding:30px 30px 32px;
+}
+.product-page-eyebrow{
+  display:block; font-family:'Space Mono',monospace; font-size:.7rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--teal-deep); margin-bottom:10px;
+}
+.product-page-card h1{
+  font-family:'Fraunces',serif; font-size:clamp(1.5rem,3vw,2rem); line-height:1.15; margin:0 0 8px;
+  color:var(--ink);
+}
+.product-page-material{ display:block; font-size:.88rem; color:var(--muted-text); margin-bottom:16px; }
+.product-page-price{
+  font-family:'Space Mono',monospace; font-size:1.7rem; font-weight:700; color:var(--canopy-dark);
+  display:block; margin-bottom:18px;
+}
+.product-page-desc{ font-size:.96rem; line-height:1.7; color:var(--muted-text); margin:0 0 18px; }
+.product-page-stock{ margin-bottom:22px; }
+.product-page-actions{ display:flex; flex-wrap:wrap; gap:12px; }
+.product-page-actions .add-btn{ flex:1 1 auto; justify-content:center; min-width:180px; }
+.product-page-view-cart{
+  flex:1 1 auto; min-width:150px; justify-content:center;
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--white); color:var(--canopy-dark); border:2px solid var(--paper-deep);
+  border-radius:999px; padding:12px 20px; font-weight:700; font-size:.9rem;
+  transition:border-color .2s ease, transform .15s ease;
+}
+.product-page-view-cart:hover{ border-color:var(--teal-deep); transform:translateY(-1px); }
+
+/* ---------- RTL support (Arabic) ---------- */
+[dir="rtl"]{ text-align:right; }
+[dir="rtl"] .header-inner{ direction:rtl; }
+[dir="rtl"] .hero-actions,
+[dir="rtl"] .stats-row,
+[dir="rtl"] .products-toolbar,
+[dir="rtl"] .chips,
+[dir="rtl"] .product-foot,
+[dir="rtl"] .cart-row,
+[dir="rtl"] .qty-control,
+[dir="rtl"] .deco-head,
+[dir="rtl"] .deco-input{ direction:rtl; }
+[dir="rtl"] .search-wrap svg{ order:2; }
+[dir="rtl"] .add-btn svg{ transform:scaleX(-1); }
+[dir="rtl"] .about-credit{ direction:rtl; }
+[dir="rtl"] .deco-btn{ left:auto; right:24px; }
+[dir="rtl"] .deco-panel{ left:auto; right:24px; }
+@media (max-width:480px){
+  [dir="rtl"] .deco-btn{ right:16px; }
+  [dir="rtl"] .deco-panel{ right:16px; left:16px; }
+}
+.lang-switch{ display:flex; gap:4px; }
+.lang-opt{ font-family:'Space Mono',monospace; font-size:.7rem; font-weight:700; padding:6px 9px; border-radius:999px; border:2px solid transparent; color:var(--canopy-dark); transition:background-color .15s ease, border-color .15s ease; }
+.lang-opt:hover{ border-color:var(--kraft-dark); }
+.lang-opt.active{ background:var(--canopy); color:var(--white); }
+
+/* Card entrance is now handled by the Tailwind `animate-card-in` utility
+   (see tailwind.config in index.html) applied directly on each card element,
+   with per-card stagger set via an inline animation-delay style from JS. */
+
+/* ================= DECORNA UPGRADE v2: attraction animations, glow, 3D tilt (Tailwind-powered) ================= */
+/* Glow, ring-spin and floating particles behind the vase, the CTA shimmer sweep,
+   the product-badge pulse and the scroll-reveal transitions are all driven by
+   Tailwind utility/animation classes set in index.html and script.js. */
+
+/* ---------- 3D tilt on product cards (driven by JS setting --rx/--ry custom props;
+   kept as plain CSS since Tailwind utilities can't read live JS-set values) ---------- */
+.product-card{
+  --rx:0deg; --ry:0deg;
+  transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(0) scale(1);
+  transform-style:preserve-3d;
+  will-change:transform;
+}
+.product-card:hover{
+  transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-6px) scale(1.02);
+  box-shadow:0 20px 34px rgba(28,36,24,.2);
+}
+.product-thumb{ transform:translateZ(18px); transition:transform .25s ease; }
+.product-card h3, .product-card .product-desc, .product-card .product-foot, .product-card .read-more-btn{
+  transform:translateZ(8px);
+}
+
+/* ---------- Section title underline draw-in (width toggled by the .is-visible
+   class that script.js adds via IntersectionObserver; Tailwind can't target
+   a sibling's ::after with arbitrary variants, so this stays plain CSS) ---------- */
+.section-head h2{ position:relative; display:inline-block; }
+.section-head h2::after{
+  content:""; position:absolute; left:0; bottom:-6px; height:3px; width:0;
+  background:linear-gradient(90deg, var(--teal-deep), var(--leaf-deep));
+  border-radius:2px;
+  transition:width .6s cubic-bezier(.2,.7,.2,1);
+}
+.section-head.is-visible h2::after{ width:100%; }
+
+@media (max-width:860px){
+  .hero-art .particle{ display:none; }
+}
+
+/* ================= DECORNA UPGRADE v3: view-transitions, @property counters, nav-link, social icons, cart fly-animation ================= */
+
+/* ---------- @property-driven animated statistics ---------- */
+@property --num {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+.stat-num{
+  --num: 0;
+  transition: --num 1.8s cubic-bezier(.2,.7,.2,1);
+  counter-reset: statCounter var(--num);
+  display:inline-block;
+}
+.stat-num::before{
+  content: counter(statCounter);
+}
+.stat-num.stat-num-pop{
+  animation: decornaStatPop 1.8s cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes decornaStatPop{
+  0%{ transform:scale(.7); opacity:0; }
+  35%{ transform:scale(1.12); opacity:1; text-shadow:0 0 18px rgba(9,188,97,.45); }
+  60%{ transform:scale(.97); text-shadow:0 0 0 rgba(9,188,97,0); }
+  100%{ transform:scale(1); text-shadow:0 0 0 rgba(9,188,97,0); }
+}
+
+/* ---------- Navbar nav-link animation ---------- */
+.main-nav .nav-link{
+  position:relative;
+  padding-bottom:4px;
+}
+.main-nav .nav-link::after{
+  content:"";
+  position:absolute; left:50%; bottom:0;
+  width:0; height:2px;
+  background:linear-gradient(90deg, var(--teal-deep), var(--leaf-deep));
+  border-radius:2px;
+  transform:translateX(-50%);
+  transition:width .28s cubic-bezier(.2,.7,.2,1);
+}
+.main-nav .nav-link:hover::after,
+.main-nav .nav-link.active::after{
+  width:100%;
+}
+.main-nav .nav-link{
+  transition:color .2s ease, transform .2s ease;
+}
+.main-nav .nav-link:hover{
+  transform:translateY(-1px);
+}
+
+/* ---------- Social / contact icon transform animation ---------- */
+.contact-link .ic{
+  display:inline-flex; align-items:center; justify-content:center;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1), color .2s ease;
+  transform-origin:center;
+}
+.contact-link:hover .ic{
+  transform:scale(1.22) rotate(-8deg);
+  color:var(--teal-deep);
+}
+.contact-link:active .ic{
+  transform:scale(.94) rotate(4deg);
+}
+
+/* ---------- View Transitions: page navigation ---------- */
+::view-transition-old(root),
+::view-transition-new(root){
+  animation-duration:.42s;
+  animation-timing-function:cubic-bezier(.2,.7,.2,1);
+}
+::view-transition-old(root){
+  animation-name:decornaViewOut;
+}
+::view-transition-new(root){
+  animation-name:decornaViewIn;
+}
+@keyframes decornaViewOut{
+  to{ opacity:0; transform:translateY(-10px) scale(.99); }
+}
+@keyframes decornaViewIn{
+  from{ opacity:0; transform:translateY(10px) scale(.99); }
+}
+
+/* ---------- View Transitions: product grid re-filter ---------- */
+::view-transition-old(product-grid),
+::view-transition-new(product-grid){
+  animation-duration:.32s;
+  animation-timing-function:ease-out;
+}
+#productGrid{ view-transition-name: product-grid; }
+
+/* ---------- Add-to-cart feedback animation ---------- */
+@keyframes decornaAddedPulse{
+  0%{ box-shadow:0 0 0 0 rgba(111,194,180,.55); }
+  40%{ transform:scale(1.035); box-shadow:0 0 0 10px rgba(111,194,180,0); }
+  100%{ transform:scale(1); }
+}
+.product-card.added-pulse{
+  animation:decornaAddedPulse .55s cubic-bezier(.2,.7,.2,1);
+}
+@keyframes decornaCartBump{
+  0%,100%{ transform:scale(1); }
+  35%{ transform:scale(1.35); }
+  60%{ transform:scale(.92); }
+}
+.cart-btn.bump,
+.badge.bump{
+  animation:decornaCartBump .45s cubic-bezier(.34,1.56,.64,1);
+}
+.fly-dot{
+  position:fixed; z-index:400; border-radius:50%;
+  background:var(--teal-deep);
+  pointer-events:none;
+  box-shadow:0 4px 10px rgba(28,36,24,.3);
+}
+
+/* ================= DECORNA UPGRADE v4: extra life & movement ================= */
+
+/* Chip selection pop */
+@keyframes decornaChipPop{
+  0%{ transform:scale(.88); }
+  55%{ transform:scale(1.08); }
+  100%{ transform:scale(1); }
+}
+.chip.active{ animation:decornaChipPop .32s cubic-bezier(.34,1.56,.64,1); }
+
+/* Magnetic buttons need a smooth spring-like return */
+.btn-primary, .btn-outline{ transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease, background-color .18s ease; }
+
+/* Idle breathing on step icons/numbers for a touch of ambient life */
+@keyframes decornaBreathe{
+  0%,100%{ transform:scale(1); }
+  50%{ transform:scale(1.06); }
+}
+.step-num{ display:inline-block; animation:decornaBreathe 3.6s ease-in-out infinite; }
+
+/* Section eyebrow tags get a small pulsing dot marker for ambient life */
+.eyebrow{ position:relative; padding-left:16px; }
+.eyebrow::before{
+  content:"";
+  position:absolute; left:0; top:50%; translate:0 -50%;
+  width:7px; height:7px; border-radius:50%;
+  background:var(--leaf-deep);
+  animation:decornaEyebrowGlow 2.4s ease-in-out infinite;
+}
+@keyframes decornaEyebrowGlow{
+  0%,100%{ opacity:1; box-shadow:0 0 0 0 rgba(58,140,90,.4); }
+  50%{ opacity:.65; box-shadow:0 0 0 4px rgba(58,140,90,0); }
+}
+
+/* Smoother cart badge whenever the count changes */
+.badge{ transition:transform .25s cubic-bezier(.34,1.56,.64,1); }
+
+/* Product price gets a subtle color pulse on hover, drawing the eye */
+.product-card .price{ transition:color .2s ease, transform .2s ease; }
+.product-card:hover .price{ color:var(--teal-deep); transform:scale(1.04); }
+
+/* ================= DECORNA UPGRADE v5: payment methods (card / cash on delivery) ================= */
+
+.field-label{
+  display:block; font-size:.72rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:.05em; color:var(--canopy-dark); margin-bottom:8px;
+}
+.field-input{
+  width:100%; padding:11px 13px; border-radius:10px; border:2px solid var(--paper-deep);
+  font-family:inherit; font-size:.9rem; background:var(--paper); color:var(--ink);
+}
+.field-input:focus{ outline:none; border-color:var(--teal-deep); }
+
+.payment-section{ margin-bottom:16px; }
+.payment-options{ display:flex; gap:8px; margin-bottom:10px; }
+.payment-opt{ flex:1; cursor:pointer; }
+.payment-opt input{ position:absolute; opacity:0; pointer-events:none; }
+.payment-opt-inner{
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  padding:11px 10px; border-radius:12px; border:2px solid var(--paper-deep);
+  background:var(--paper); color:var(--canopy-dark); font-weight:600; font-size:.85rem;
+  transition:border-color .18s ease, background-color .18s ease, transform .15s ease, color .18s ease;
+}
+.payment-opt input:checked + .payment-opt-inner{
+  border-color:var(--teal-deep); background:var(--white); color:var(--teal-deep);
+  box-shadow:0 4px 12px rgba(46,120,115,.14);
+}
+.payment-opt:hover .payment-opt-inner{ transform:translateY(-1px); }
+
+.card-fields{
+  display:flex; flex-direction:column; gap:8px; margin-top:4px;
+  animation:decornaCardFieldsIn .3s cubic-bezier(.2,.7,.2,1);
+}
+@keyframes decornaCardFieldsIn{
+  from{ opacity:0; transform:translateY(-6px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+.card-fields-row{ display:flex; gap:8px; }
+.card-fields-row .field-input{ flex:1; }
+.card-note{ font-size:.72rem; color:var(--canopy-dark); opacity:.65; margin:2px 0 0; line-height:1.4; }
+.field-input.field-error{ border-color:var(--clay); }
+
+/* ================= DECORNA UPGRADE v6: more movement everywhere ================= */
+
+/* Cart rows slide in with a stagger when the drawer opens / cart updates */
+@keyframes decornaCartRowIn{
+  from{ opacity:0; transform:translateX(18px); }
+  to{ opacity:1; transform:translateX(0); }
+}
+.cart-row-in{ animation:decornaCartRowIn .4s cubic-bezier(.2,.7,.2,1) both; }
+
+/* Quantity control buttons give tactile feedback */
+.qty-control button{ transition:transform .15s ease, background-color .15s ease, border-color .15s ease; }
+.qty-control button:hover{ border-color:var(--teal-deep); color:var(--teal-deep); }
+.qty-control button:active{ transform:scale(.85); }
+.qty-control span{ display:inline-block; transition:transform .2s cubic-bezier(.34,1.56,.64,1); }
+
+/* Remove-btn gets a small shake-free underline grow instead of default underline */
+.remove-btn{ position:relative; transition:color .15s ease, transform .15s ease; }
+.remove-btn:hover{ color:var(--clay); transform:translateX(2px); }
+
+/* Icon buttons (search, cart, profile, heart) get a gentle pop on interaction */
+.icon-btn{ transition:transform .18s cubic-bezier(.34,1.56,.64,1), background-color .15s ease, color .15s ease; }
+.icon-btn:hover{ transform:translateY(-2px); }
+.icon-btn:active{ transform:scale(.9); }
+
+/* Logo mark gives a tiny wiggle on hover — inviting, not distracting */
+.logo-btn{ transition:transform .3s cubic-bezier(.34,1.56,.64,1); }
+.logo-btn:hover{ transform:rotate(-4deg) scale(1.05); }
+
+/* Search input focus grows subtly to draw attention to typed queries */
+.search-wrap input{ transition:box-shadow .2s ease, border-color .2s ease; }
+.search-wrap input:focus{ box-shadow:0 0 0 4px rgba(46,120,115,.12); }
+
+/* Empty-state icon gets a slow idle sway, feels alive instead of static */
+.empty-state{ animation:decornaEmptySway 3.2s ease-in-out infinite; }
+@keyframes decornaEmptySway{
+  0%,100%{ transform:translateY(0) rotate(0deg); }
+  50%{ transform:translateY(-4px) rotate(.6deg); }
+}
+
+/* Auth tab switch: sliding highlight feel via transform on the active button */
+.auth-tabs button{ transition:color .2s ease; }
+.auth-tabs button.active{ animation:decornaTabPop .28s cubic-bezier(.34,1.56,.64,1); }
+@keyframes decornaTabPop{ from{ transform:scale(.94); } to{ transform:scale(1); } }
+
+/* DECO chatbot button: idle attention pulse (subtle, stops once opened) */
+@keyframes decornaDecoPulse{
+  0%,100%{ box-shadow:0 6px 18px rgba(28,36,24,.18), 0 0 0 0 rgba(46,120,115,.35); }
+  50%{ box-shadow:0 6px 18px rgba(28,36,24,.18), 0 0 0 10px rgba(46,120,115,0); }
+}
+.deco-btn{ animation:decornaDecoPulse 3.4s ease-in-out infinite; }
+.deco-btn:hover{ animation-play-state:paused; }
+
+/* Deco chat panel entrance */
+.deco-panel{ transition:opacity .25s ease, transform .3s cubic-bezier(.2,.7,.2,1); }
+
+/* Chat bubbles slide in from their side */
+@keyframes decornaBubbleInBot{ from{ opacity:0; transform:translateX(-10px) scale(.96); } to{ opacity:1; transform:translateX(0) scale(1); } }
+@keyframes decornaBubbleInUser{ from{ opacity:0; transform:translateX(10px) scale(.96); } to{ opacity:1; transform:translateX(0) scale(1); } }
+.msg.bot{ animation:decornaBubbleInBot .3s cubic-bezier(.2,.7,.2,1) both; }
+.msg.user{ animation:decornaBubbleInUser .3s cubic-bezier(.2,.7,.2,1) both; }
+
+/* Quick-reply chips in the chatbot pop in with a stagger */
+.deco-quick button{ animation:decornaChipPop .3s cubic-bezier(.34,1.56,.64,1) both; transition:transform .15s ease; }
+.deco-quick button:hover{ transform:translateY(-1px); }
+.deco-quick button:nth-child(1){animation-delay:.03s;}
+.deco-quick button:nth-child(2){animation-delay:.08s;}
+.deco-quick button:nth-child(3){animation-delay:.13s;}
+.deco-quick button:nth-child(4){animation-delay:.18s;}
+.deco-quick button:nth-child(5){animation-delay:.23s;}
+
+/* Footer social icons: idle micro float so the footer doesn't feel static */
+.footer-contact .contact-link{ transition:transform .2s ease; }
+
+/* Payment option icons breathe slightly when selected, for extra confirmation feel */
+.payment-opt input:checked + .payment-opt-inner svg{ animation:decornaBreathe 2.2s ease-in-out infinite; }
+
+/* Smooth number transition on cart total whenever it updates */
+#cartTotal{ transition:color .25s ease; }
+#cartTotal.flash{ color:var(--teal-deep); }
+
+/* Whole page eases in gently right after the loader disappears */
+body > .site-header,
+body > main,
+body > footer.site-footer{
+  opacity:0; transform:translateY(10px);
+}
+body.page-revealed > .site-header,
+body.page-revealed > main,
+body.page-revealed > footer.site-footer{
+  opacity:1; transform:translateY(0);
+  transition:opacity .5s ease, transform .5s cubic-bezier(.2,.7,.2,1);
+}
+
+/* Gentle parallax drift on the hero art while scrolling (handled via JS setting --scrollY) */
+.hero-art{
+  transform:translateY(calc(var(--hero-parallax, 0) * 1px));
+}
+
+/* ================= DECORNA UPGRADE v7: DECO assistant — real conversation feel ================= */
+
+/* Typing indicator: three bouncing dots, ChatGPT-style */
+.msg.bot.typing{ display:flex; align-items:center; gap:5px; padding:13px 16px; }
+.typing-dot{
+  width:6px; height:6px; border-radius:50%; background:var(--canopy-dark);
+  opacity:.5; animation:decornaTypingBounce 1.1s ease-in-out infinite;
+}
+.typing-dot:nth-child(2){ animation-delay:.15s; }
+.typing-dot:nth-child(3){ animation-delay:.3s; }
+@keyframes decornaTypingBounce{
+  0%,60%,100%{ transform:translateY(0); opacity:.5; }
+  30%{ transform:translateY(-4px); opacity:1; }
+}
+
+/* ================= DECORNA UPGRADE v8: recycling background video ================= */
+
+.video-hero{
+  position:relative;
+  margin:40px 0;
+  border-radius:22px;
+  overflow:hidden;
+  min-height:340px;
+  display:flex;
+  align-items:flex-end;
+  background:var(--canopy-dark); /* shows while the video loads, or if it never loads */
+  box-shadow:0 18px 40px rgba(28,36,24,.22);
+}
+.video-hero-media{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover;
+  /* Hidden by default; JS reveals it only once the file actually loads,
+     so broken/missing video never leaves an empty black box. */
+  opacity:0;
+  transition:opacity .6s ease;
+}
+.video-hero.video-ready .video-hero-media{ opacity:1; }
+.video-hero.video-ready .video-hero-fallback{ opacity:0; }
+
+/* CSS/emoji fallback animation: a simple "recycling loop" so the section
+   still feels alive before a real video file is added at
+   assets/videos/recycling-hero.mp4 */
+.video-hero-fallback{
+  position:absolute; inset:0;
+  background:linear-gradient(135deg, var(--canopy-dark), var(--teal-deep) 60%, var(--leaf-deep));
+  overflow:hidden;
+  transition:opacity .6s ease;
+}
+.vh-icon{
+  position:absolute; font-size:2.6rem; opacity:.85; filter:drop-shadow(0 6px 10px rgba(0,0,0,.25));
+  animation:decornaVhDrift linear infinite;
+}
+.vh-1{ top:18%; left:8%;  animation-duration:13s; animation-delay:0s; }
+.vh-2{ top:60%; left:20%; animation-duration:16s; animation-delay:2s; }
+.vh-3{ top:30%; left:70%; animation-duration:14s; animation-delay:1s; }
+.vh-4{ top:70%; left:80%; animation-duration:17s; animation-delay:3s; }
+@keyframes decornaVhDrift{
+  0%{ transform:translate(0,0) rotate(0deg); }
+  25%{ transform:translate(18px,-24px) rotate(8deg); }
+  50%{ transform:translate(-10px,-40px) rotate(-6deg); }
+  75%{ transform:translate(-22px,-10px) rotate(5deg); }
+  100%{ transform:translate(0,0) rotate(0deg); }
+}
+
+.video-hero-overlay{
+  position:absolute; inset:0;
+  background:linear-gradient(0deg, rgba(20,26,18,.85) 0%, rgba(20,26,18,.35) 55%, rgba(20,26,18,.1) 100%);
+}
+.video-hero-content{
+  position:relative; z-index:2;
+  padding:30px 28px 32px;
+  max-width:560px;
+  color:var(--white);
+}
+.video-hero-content h2{
+  color:var(--white); font-size:1.6rem; margin:6px 0 8px;
+}
+.video-hero-content p{
+  color:rgba(255,252,246,.88); font-size:.95rem; line-height:1.5; margin:0;
+}
+.video-hero-content .eyebrow::before{ background:var(--teal); }
+
+@media (max-width:640px){
+  .video-hero{ min-height:280px; border-radius:16px; }
+  .video-hero-content{ padding:22px 18px 24px; }
+  .video-hero-content h2{ font-size:1.3rem; }
+  .vh-icon{ font-size:2rem; }
+}
+
+/* ---- Lively recycling hero: slow zoom, glow border, floating badges ---- */
+.video-hero--lively{
+  box-shadow:0 22px 48px rgba(9,188,97,.18), 0 6px 18px rgba(28,36,24,.28);
+  border:2px solid rgba(255,252,246,.14);
+}
+.video-hero-media--kenburns{
+  animation:decornaKenBurns 16s ease-in-out infinite alternate;
+}
+@keyframes decornaKenBurns{
+  0%{ transform:scale(1) translate(0,0); }
+  100%{ transform:scale(1.09) translate(-1%, -1%); }
+}
+.video-hero-pulse-dot{
+  position:absolute; top:22px; right:24px; z-index:3;
+  width:11px; height:11px; border-radius:50%; background:var(--leaf);
+  box-shadow:0 0 0 rgba(9,188,97,.6);
+}
+.video-hero-pulse-dot span{
+  position:absolute; inset:0; border-radius:50%; background:var(--leaf);
+  animation:decornaPulseRing 1.8s ease-out infinite;
+}
+@keyframes decornaPulseRing{
+  0%{ transform:scale(1); opacity:.8; }
+  100%{ transform:scale(2.6); opacity:0; }
+}
+.video-hero-badges{
+  position:absolute; inset:0; z-index:2; pointer-events:none;
+}
+.vh-badge{
+  position:absolute;
+  background:rgba(20,26,18,.55);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(255,252,246,.25);
+  color:var(--white);
+  font-family:'Space Mono',monospace;
+  font-size:.72rem; font-weight:700; letter-spacing:.02em;
+  padding:8px 14px; border-radius:999px;
+  box-shadow:0 8px 18px rgba(0,0,0,.25);
+  animation:decornaBadgeFloat 6s ease-in-out infinite;
+}
+.vh-badge strong{ color:var(--leaf); }
+.vh-badge-1{ top:16%; left:6%; animation-delay:0s; }
+.vh-badge-2{ top:70%; left:8%; animation-delay:1.4s; }
+.vh-badge-3{ top:24%; right:6%; animation-delay:.7s; }
+@keyframes decornaBadgeFloat{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-10px); }
+}
+@media (max-width:640px){
+  .vh-badge{ font-size:.62rem; padding:6px 10px; }
+  .vh-badge-3{ display:none; }
+}
+html[data-theme="dark"] .video-hero--lively{
+  box-shadow:0 22px 48px rgba(9,188,97,.12), 0 6px 18px rgba(0,0,0,.5);
+}
+
+/* ================= DECORNA UPGRADE v9: stock indicators, team page ================= */
+
+.stock-badge{
+  display:inline-flex; align-items:center; gap:5px;
+  font-family:'Space Mono',monospace; font-size:.7rem; font-weight:700;
+  padding:3px 0; margin:2px 0 6px;
+}
+.stock-badge::before{ content:"●"; font-size:.6rem; }
+.stock-badge.stock-ok{ color:var(--leaf-deep); }
+.stock-badge.stock-low{ color:var(--clay); animation:decornaBadgePulse 2s ease-in-out infinite; }
+.stock-badge.stock-out{ color:var(--muted-text-2); }
+
+.add-btn.add-btn-disabled{
+  background:var(--paper-deep) !important; color:var(--disabled-text) !important;
+  cursor:not-allowed; box-shadow:none !important;
+}
+.add-btn.add-btn-disabled:hover{ transform:none !important; }
+
+/* ================= DECORNA UPGRADE v10: ambient rotating glow on product cards ================= */
+
+@property --card-glow-angle{
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.product-card{
+  isolation:isolate; /* keeps the glow strictly behind this card, never bleeding into siblings */
+}
+.product-card::before{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius:calc(var(--radius) + 3px);
+  background:conic-gradient(from var(--card-glow-angle),
+    var(--teal-deep), var(--leaf), var(--kraft-dark), var(--teal), var(--teal-deep));
+  filter:blur(16px);
+  opacity:.35;
+  z-index:-1;
+  animation:decornaCardGlowSpin 7s linear infinite;
+  transition:opacity .3s ease, filter .3s ease;
+  pointer-events:none;
+}
+.product-card:hover::before{
+  opacity:.65;
+  filter:blur(20px);
+}
+@keyframes decornaCardGlowSpin{
+  to{ --card-glow-angle:360deg; }
+}
+
+@media (max-width:640px){
+  .product-card::before{ filter:blur(10px); opacity:.3; }
+}
+
+/* Respect reduced-motion: keep the glow but stop the spin */
+@media (prefers-reduced-motion: reduce){
+  .product-card::before{ animation:none; }
+}
+
+/* ---------- Team page (photo-grid style) ---------- */
+.team-page-title{
+  font-size:2.1rem; margin-bottom:14px;
+}
+.team-page-title + .about-intro{ max-width:760px; }
+.team-grid{
+  display:grid; grid-template-columns:repeat(4, 1fr);
+  column-gap:28px; row-gap:40px; margin-top:32px;
+}
+@media (max-width:900px){
+  .team-grid{ grid-template-columns:repeat(2, 1fr); }
+}
+@media (max-width:480px){
+  .team-grid{ grid-template-columns:1fr 1fr; column-gap:16px; row-gap:28px; }
+}
+.team-card{
+  text-align:center;
+}
+.team-photo{
+  position:relative;
+  aspect-ratio:4/5; border-radius:14px; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 10px 22px rgba(28,36,24,.14);
+  transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;
+}
+.team-card:hover .team-photo{
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:0 18px 30px rgba(28,36,24,.22);
+}
+.team-initials{
+  font-family:'Fraunces',serif; font-weight:600; font-size:2.4rem; color:rgba(255,252,246,.92);
+  text-shadow:0 2px 8px rgba(0,0,0,.15);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.team-card:hover .team-initials{ transform:scale(1.08); }
+.team-gradient-bar{
+  height:4px; border-radius:999px; margin-top:14px;
+  transform:scaleX(.88); transition:transform .3s ease;
+}
+.team-card:hover .team-gradient-bar{ transform:scaleX(1); }
+.team-card h4{
+  font-size:1rem; font-weight:700; margin:14px 0 2px; color:var(--ink);
+}
+.team-role{
+  display:block; font-size:.82rem; color:var(--muted-text-2);
+}
+.team-note{
+  margin-top:36px; padding:18px 20px; background:var(--paper-deep); border-radius:var(--radius);
+  border:2px dashed var(--kraft-dark); font-size:.88rem; color:var(--canopy-dark); text-align:center;
+}
+
+/* ================= DECORNA UPGRADE v11: checkout confetti celebration ================= */
+.confetti-piece{
+  position:fixed; width:8px; height:8px; border-radius:2px;
+  z-index:600; pointer-events:none;
+  animation:decornaConfettiBurst 1.1s cubic-bezier(.2,.7,.2,1) forwards;
+}
+@keyframes decornaConfettiBurst{
+  0%{ transform:translate(0,0) rotate(0deg); opacity:1; }
+  100%{ transform:translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity:0; }
+}
+@media (prefers-reduced-motion: reduce){
+  .confetti-piece{ animation:none; opacity:0; }
+}
+
+/* ================= DECORNA UPGRADE v12: dark / light theme toggle ================= */
+.theme-toggle{ position:relative; overflow:hidden; }
+.theme-icon-sun, .theme-icon-moon{
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%) rotate(0deg) scale(1);
+  transition:opacity .35s ease, transform .45s cubic-bezier(.34,1.56,.64,1);
+  opacity:1;
+}
+.theme-icon-moon{ opacity:0; transform:translate(-50%,-50%) rotate(-90deg) scale(.4); }
+html[data-theme="dark"] .theme-icon-sun{ opacity:0; transform:translate(-50%,-50%) rotate(90deg) scale(.4); }
+html[data-theme="dark"] .theme-icon-moon{ opacity:1; transform:translate(-50%,-50%) rotate(0deg) scale(1); }
+
+/* Dark-mode-only tweaks that go beyond simple variable swaps */
+html[data-theme="dark"] .video-hero-overlay{
+  background:linear-gradient(0deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,.45) 55%, rgba(0,0,0,.15) 100%);
+}
+html[data-theme="dark"] .hero-art::before,
+html[data-theme="dark"] #cursorGlow{ mix-blend-mode:screen; }
+html[data-theme="dark"] .stat-num{ color:var(--leaf); }
+html[data-theme="dark"] ::-webkit-scrollbar-thumb{ background:var(--kraft-dark); }
+
+/* ================= MINIMAL MOTION MODE ================= */
+/* The site's decorative, infinite-loop animations are switched off so the
+   experience feels calmer and more minimal. Short, purposeful transitions
+   (button hover feedback, view fade-in, modal/drawer/chat open state, the
+   page loader spinner, and the typing indicator) are kept because they
+   carry real information or feedback. */
+
+/* Decorative infinite-loop / ambient animations: off */
+.animate-float,
+.animate-float-y,
+.animate-glow-pulse,
+.animate-ring-spin,
+.animate-blob-drift,
+.animate-vase-wander,
+.animate-badge-pulse,
+.animate-shimmer,
+#cursorGlow{
+  animation:none !important;
+}
+#cursorGlow{ display:none !important; }
+
+/* Word-by-word hero title reveal → single, quick, non-staggered fade */
+.animate-word-in{
+  animation:decornaMinimalFadeIn .35s ease both !important;
+  animation-delay:0s !important;
+}
+
+/* Card / block entrances → simple short fade, no slide or bounce */
+.animate-card-in,
+.animate-fade-in-up{
+  animation:decornaMinimalFadeIn .3s ease both !important;
+}
+@keyframes decornaMinimalFadeIn{ from{ opacity:0; } to{ opacity:1; } }
+
+/* Chatbot idle pulse, recycling-video zoom and floating badges: off */
+.deco-btn{ animation:none !important; }
+.video-hero-media--kenburns{ animation:none !important; }
+.vh-badge{ animation:none !important; }
+.video-hero-pulse-dot span{ animation:none !important; opacity:.5; }
+.vh-icon{ animation:none !important; }
+
+/* Chat bubbles: fade instead of sliding in */
+.msg.bot,
+.msg.user{
+  animation:decornaMinimalFadeIn .2s ease both !important;
+}
+.deco-quick button{ animation:none !important; }
+
+/* Hover interactions kept, but toned down (no scale/rotate flourish) */
+.step-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 18px rgba(28,36,24,.14);
+}
+.step-card:hover .step-num{ transform:none; color:var(--kraft-dark); }
+.hero-video-frame:hover{ transform:none; }
+.logo-btn:hover{ transform:none; }
+.hero-art .particle{ display:none; }
+
+/* Scroll-reveal fades stay, but without the vertical slide */
+[class*="translate-y-7"]{ transform:none !important; }
+
+/* Stat number "breathing" and step-num breathing: off */
+.step-num,
+.payment-opt input:checked + .payment-opt-inner svg{ animation:none !important; }
+
+/* ================= MINIMAL MOTION MODE — pass 2 ================= */
+/* Remaining ambient/looping decorative effects switched off for a calmer,
+   more professional feel. Direct-interaction feedback (add-to-cart bump,
+   filter chip pop, tab switch, toasts) is intentionally left alone —
+   those are brief, purposeful confirmations, not idle decoration. */
+.eyebrow::before{ animation:none !important; opacity:1 !important; box-shadow:none !important; }
+.empty-state{ animation:none !important; }
+.stock-badge.stock-low{ animation:none !important; }
+.product-card::before{ display:none !important; }

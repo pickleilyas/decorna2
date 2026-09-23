@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decorna — Espace Admin</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600..700;1,9..144,500&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    corePlugins: { preflight: false },
+    theme: { extend: { colors: {
+      canopy:'#2C4A30', canopyDark:'#1F3622', tealDeep:'#2E7873', teal:'#86CAC9',
+      leaf:'#09BC61', leafDeep:'#078C49', kraft:'#E1CFA8', kraftDark:'#B89B6E',
+      paper:'#F6F2E7', paperDeep:'#EFE7D5', clay:'#A4503A'
+    } } }
+  };
+</script>
+<style>
+  body{ font-family:'Inter',sans-serif; background:#F6F2E7; color:#1C2418; margin:0; }
+  h1,h2,h3{ font-family:'Fraunces',serif; }
+  .mono{ font-family:'Space Mono',monospace; }
+  input,select,textarea{ font-family:'Inter',sans-serif; }
+  ::-webkit-scrollbar{ width:8px; height:8px; }
+  ::-webkit-scrollbar-thumb{ background:#B89B6E; border-radius:8px; }
+  .field-label{ font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:#2C4A30; display:block; margin-bottom:4px; }
+  .field-input{ width:100%; border:1.5px solid #E1CFA8; border-radius:10px; padding:9px 12px; font-size:.9rem; background:#FFFCF6; }
+  .field-input:focus{ outline:none; border-color:#2E7873; box-shadow:0 0 0 3px rgba(46,120,115,.15); }
+  .btn{ display:inline-flex; align-items:center; gap:6px; border-radius:999px; padding:10px 20px; font-weight:600; font-size:.88rem; cursor:pointer; border:2px solid transparent; transition:transform .15s ease, box-shadow .15s ease; }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn-primary{ background:#2C4A30; color:#FFFCF6; }
+  .btn-primary:hover{ background:#1F3622; }
+  .btn-outline{ border-color:#2C4A30; color:#2C4A30; background:transparent; }
+  .btn-outline:hover{ background:#EFE7D5; }
+  .btn-danger{ color:#A4503A; border-color:#A4503A; background:transparent; }
+  .btn-danger:hover{ background:#fbeae5; }
+  .fade-in{ animation:fadeIn .35s ease both; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+</style>
+</head>
+<body>
+
+<div id="loginScreen" class="min-h-screen flex items-center justify-center px-4">
+  <form id="loginForm" class="fade-in w-full max-w-sm bg-white rounded-2xl shadow-lg p-8 border border-kraft">
+    <div class="flex items-center gap-2 mb-1">
+      <img src="assets/logo-2.png" alt="Decorna" class="h-9 w-auto object-contain">
+      <h1 class="text-xl font-bold text-canopy">Admin</h1>
+    </div>
+    <p class="text-sm text-canopy/70 mb-6">Connectez-vous avec votre compte administrateur.</p>
+    <div class="mb-4">
+      <label class="field-label">Email</label>
+      <input class="field-input" type="email" id="loginEmail" required placeholder="admin@decorna.ma" value="admin@decorna.ma">
+    </div>
+    <div class="mb-5">
+      <label class="field-label">Mot de passe</label>
+      <input class="field-input" type="password" id="loginPassword" required placeholder="••••••••">
+    </div>
+    <p id="loginError" class="text-sm text-clay mb-4 hidden"></p>
+    <button type="submit" class="btn btn-primary w-full justify-center">Se connecter</button>
+    <p class="mono text-xs text-canopy/50 mt-5 leading-relaxed">
+      Compte par défaut : <b>admin@decorna.ma</b> / <b>Decorna2026!</b><br>
+      (à changer avant toute mise en ligne réelle)
+    </p>
+  </form>
+</div>
+
+<div id="dashboard" class="hidden">
+  <header class="bg-white border-b border-kraft sticky top-0 z-20">
+    <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <img src="assets/logo-2.png" alt="Decorna" class="h-8 w-auto object-contain">
+        <span class="font-bold text-canopy/60">· Admin</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <span id="adminName" class="text-sm text-canopy/70 hidden sm:inline"></span>
+        <a href="index.html" class="btn btn-outline !py-2 !px-4 text-sm">Voir le site</a>
+        <button id="logoutBtn" class="btn btn-danger !py-2 !px-4 text-sm">Déconnexion</button>
+      </div>
+    </div>
+    <nav class="max-w-6xl mx-auto px-5 flex gap-2 -mb-px">
+      <button data-tab="products" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-canopy text-canopy">Produits</button>
+      <button data-tab="orders" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-canopy/50">Commandes</button>
+    </nav>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-5 py-8">
+
+    <!-- PRODUCTS TAB -->
+    <section id="tab-products" class="fade-in">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-2xl font-bold text-canopy">Catalogue</h2>
+        <button id="newProductBtn" class="btn btn-primary text-sm">+ Nouveau produit</button>
+      </div>
+      <div class="bg-white rounded-2xl border border-kraft overflow-hidden shadow-sm">
+        <table class="w-full text-sm">
+          <thead class="bg-paperDeep text-canopy/70 text-xs uppercase tracking-wide">
+            <tr>
+              <th class="text-left px-4 py-3">Photo</th>
+              <th class="text-left px-4 py-3">Nom (FR)</th>
+              <th class="text-left px-4 py-3">Catégorie</th>
+              <th class="text-left px-4 py-3">Prix</th>
+              <th class="text-left px-4 py-3">Stock</th>
+              <th class="text-left px-4 py-3">Statut</th>
+              <th class="text-right px-4 py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="productsTableBody"></tbody>
+        </table>
+        <div id="productsEmpty" class="hidden text-center py-10 text-canopy/50">Aucun produit pour le moment.</div>
+      </div>
+    </section>
+
+    <!-- ORDERS TAB -->
+    <section id="tab-orders" class="hidden fade-in">
+      <h2 class="text-2xl font-bold text-canopy mb-5">Commandes</h2>
+      <div id="ordersList" class="space-y-3"></div>
+      <div id="ordersEmpty" class="hidden text-center py-10 text-canopy/50">Aucune commande pour le moment.</div>
+    </section>
+
+  </main>
+</div>
+
+<!-- PRODUCT EDIT MODAL -->
+<div id="productModal" class="hidden fixed inset-0 bg-black/40 z-40 flex items-center justify-center p-4">
+  <div class="fade-in bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[88vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-kraft sticky top-0 bg-white">
+      <h3 id="productModalTitle" class="text-lg font-bold text-canopy">Produit</h3>
+      <button id="productModalClose" class="text-canopy/50 hover:text-canopy text-xl leading-none">&times;</button>
+    </div>
+    <form id="productForm" class="px-6 py-5 space-y-5">
+      <input type="hidden" id="pId">
+
+      <div>
+        <label class="field-label">Photo</label>
+        <div class="flex items-center gap-4">
+          <img id="pPhotoPreview" class="w-20 h-20 rounded-lg object-cover bg-paperDeep border border-kraft" src="" alt="">
+          <input type="file" id="pPhotoFile" accept="image/png,image/jpeg,image/webp" class="text-sm">
+        </div>
+        <p class="text-xs text-canopy/50 mt-1">Enregistrez d'abord le produit, puis ajoutez sa photo — elle s'affiche aussitôt sur le site.</p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <label class="field-label">Catégorie</label>
+          <select id="pCatKey" class="field-input">
+            <option value="vases">Vases</option>
+            <option value="lighting">Luminaires</option>
+            <option value="frames">Cadres &amp; miroirs</option>
+            <option value="storage">Rangement</option>
+            <option value="clocks">Horloges</option>
+            <option value="walldeco">Déco murale</option>
+            <option value="keychains">Porte-clés</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Prix (MAD)</label>
+          <input type="number" id="pPrice" min="0" class="field-input" required>
+        </div>
+        <div>
+          <label class="field-label">Stock (unités)</label>
+          <input type="number" id="pStock" min="0" class="field-input" required>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3">
+        <div><label class="field-label">Nom (FR)</label><input class="field-input" id="pNameFr" required></div>
+        <div><label class="field-label">Nom (EN)</label><input class="field-input" id="pNameEn" required></div>
+        <div><label class="field-label">Nom (AR)</label><input class="field-input" id="pNameAr" dir="rtl"></div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3">
+        <div><label class="field-label">Matière (FR)</label><input class="field-input" id="pMaterialFr" required></div>
+        <div><label class="field-label">Matière (EN)</label><input class="field-input" id="pMaterialEn" required></div>
+        <div><label class="field-label">Matière (AR)</label><input class="field-input" id="pMaterialAr" dir="rtl"></div>
+      </div>
+
+      <div>
+        <label class="field-label">Description courte (FR)</label>
+        <textarea class="field-input" id="pDescFr" rows="2" required></textarea>
+      </div>
+      <div>
+        <label class="field-label">Description courte (EN)</label>
+        <textarea class="field-input" id="pDescEn" rows="2" required></textarea>
+      </div>
+      <div>
+        <label class="field-label">Description courte (AR)</label>
+        <textarea class="field-input" id="pDescAr" rows="2" dir="rtl"></textarea>
+      </div>
+
+      <details class="border border-kraft rounded-xl p-3">
+        <summary class="cursor-pointer text-sm font-semibold text-canopy">Description détaillée ("Lire plus")</summary>
+        <div class="mt-3 space-y-3">
+          <div><label class="field-label">FR</label><textarea class="field-input" id="pLongFr" rows="3"></textarea></div>
+          <div><label class="field-label">EN</label><textarea class="field-input" id="pLongEn" rows="3"></textarea></div>
+          <div><label class="field-label">AR</label><textarea class="field-input" id="pLongAr" rows="3" dir="rtl"></textarea></div>
+        </div>
+      </details>
+
+      <label class="flex items-center gap-2 text-sm text-canopy">
+        <input type="checkbox" id="pActive" checked>
+        Produit actif (visible sur le site)
+      </label>
+
+      <div class="flex justify-end gap-3 pt-2">
+        <button type="button" id="productFormCancel" class="btn btn-outline">Annuler</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s, r){ return (r || document).querySelector(s); };
+  var $all = function(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var API = "/api";
+  var state = { products: [], orders: [], currentUser: null };
+
+  function apiFetch(url, opts){
+    opts = opts || {};
+    opts.credentials = "include";
+    return fetch(API + url, opts).then(function(res){
+      if(res.status === 401) throw new Error("UNAUTHORIZED");
+      return res.json().then(function(data){
+        if(!res.ok) throw new Error(data.error || "Erreur serveur");
+        return data;
+      });
+    });
+  }
+
+  /* ---------------- AUTH ---------------- */
+  function checkSession(){
+    return apiFetch("/auth/me").then(function(data){
+      if(data.user && data.user.isAdmin){
+        state.currentUser = data.user;
+        showDashboard();
+      } else {
+        showLogin();
+      }
+    }).catch(function(){ showLogin(); });
+  }
+
+  function showLogin(){
+    $("#loginScreen").classList.remove("hidden");
+    $("#dashboard").classList.add("hidden");
+  }
+  function showDashboard(){
+    $("#loginScreen").classList.add("hidden");
+    $("#dashboard").classList.remove("hidden");
+    $("#adminName").textContent = state.currentUser.fullName;
+    loadProducts();
+    loadOrders();
+  }
+
+  $("#loginForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var email = $("#loginEmail").value.trim();
+    var password = $("#loginPassword").value;
+    $("#loginError").classList.add("hidden");
+    apiFetch("/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email, password: password })
+    }).then(function(user){
+      if(!user.isAdmin){
+        $("#loginError").textContent = "Ce compte n'a pas les droits administrateur.";
+        $("#loginError").classList.remove("hidden");
+        return;
+      }
+      state.currentUser = user;
+      showDashboard();
+    }).catch(function(err){
+      $("#loginError").textContent = "Email ou mot de passe incorrect.";
+      $("#loginError").classList.remove("hidden");
+    });
+  });
+
+  $("#logoutBtn").addEventListener("click", function(){
+    apiFetch("/auth/logout", { method: "POST" }).then(function(){
+      state.currentUser = null;
+      showLogin();
+    });
+  });
+
+  /* ---------------- TABS ---------------- */
+  $all(".tab-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      $all(".tab-btn").forEach(function(b){
+        b.classList.toggle("border-canopy", b === btn);
+        b.classList.toggle("text-canopy", b === btn);
+        b.classList.toggle("border-transparent", b !== btn);
+        b.classList.toggle("text-canopy/50", b !== btn);
+      });
+      $all("main > section").forEach(function(s){ s.classList.add("hidden"); });
+      $("#tab-" + btn.dataset.tab).classList.remove("hidden");
+    });
+  });
+
+  /* ---------------- PRODUCTS ---------------- */
+  var CAT_LABELS = { vases:"Vases", lighting:"Luminaires", frames:"Cadres & miroirs", storage:"Rangement", clocks:"Horloges", walldeco:"Déco murale", keychains:"Porte-clés" };
+
+  function loadProducts(){
+    apiFetch("/admin/products").then(function(products){
+      state.products = products;
+      renderProducts();
+    }).catch(function(){ showLogin(); });
+  }
+
+  function renderProducts(){
+    var tbody = $("#productsTableBody");
+    tbody.innerHTML = state.products.map(function(p){
+      var photo = p.imagePath
+        ? '<img src="assets/' + p.imagePath + '" class="w-12 h-12 rounded-lg object-cover border border-kraft" alt="">'
+        : '<div class="w-12 h-12 rounded-lg bg-paperDeep border border-kraft flex items-center justify-center text-canopy/30 text-xs">—</div>';
+      var stockBadge = p.stock <= 0
+        ? '<span class="text-xs font-semibold text-clay bg-clay/10 px-2 py-1 rounded-full">Rupture</span>'
+        : p.stock <= 5
+          ? '<span class="text-xs font-semibold text-clay bg-clay/10 px-2 py-1 rounded-full">' + p.stock + ' restants</span>'
+          : '<span class="mono">' + p.stock + '</span>';
+      return '' +
+        '<tr class="border-t border-kraft/60 hover:bg-paper/60">' +
+          '<td class="px-4 py-3">' + photo + '</td>' +
+          '<td class="px-4 py-3 font-medium">' + escapeHtml(p.name.fr) + '</td>' +
+          '<td class="px-4 py-3 text-canopy/70">' + (CAT_LABELS[p.catKey] || p.catKey) + '</td>' +
+          '<td class="px-4 py-3 mono">' + p.price + ' MAD</td>' +
+          '<td class="px-4 py-3">' + stockBadge + '</td>' +
+          '<td class="px-4 py-3">' + (p.isActive
+            ? '<span class="text-xs font-semibold text-leafDeep bg-leaf/10 px-2 py-1 rounded-full">Actif</span>'
+            : '<span class="text-xs font-semibold text-clay bg-clay/10 px-2 py-1 rounded-full">Masqué</span>') + '</td>' +
+          '<td class="px-4 py-3 text-right whitespace-nowrap">' +
+            '<button class="btn btn-outline !py-1.5 !px-3 text-xs mr-2" data-edit="' + p.id + '">Modifier</button>' +
+            '<button class="btn btn-danger !py-1.5 !px-3 text-xs" data-delete="' + p.id + '">' + (p.isActive ? 'Masquer' : 'Réactiver') + '</button>' +
+          '</td>' +
+        '</tr>';
+    }).join("");
+    $("#productsEmpty").classList.toggle("hidden", state.products.length > 0);
+
+    $all("[data-edit]").forEach(function(btn){
+      btn.addEventListener("click", function(){ openProductModal(parseInt(btn.dataset.edit, 10)); });
+    });
+    $all("[data-delete]").forEach(function(btn){
+      btn.addEventListener("click", function(){ toggleProduct(parseInt(btn.dataset.delete, 10)); });
+    });
+  }
+
+  function toggleProduct(id){
+    var p = state.products.find(function(x){ return x.id === id; });
+    if(!p) return;
+    var request = p.isActive
+      ? apiFetch("/admin/products/" + id, { method: "DELETE" })
+      : apiFetch("/admin/products/" + id, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ isActive: true })
+        });
+    request.then(loadProducts);
+  }
+
+  var editingId = null;
+
+  function openProductModal(id){
+    editingId = id;
+    var p = id ? state.products.find(function(x){ return x.id === id; }) : null;
+    $("#productModalTitle").textContent = p ? "Modifier le produit" : "Nouveau produit";
+    $("#pId").value = id || "";
+    $("#pCatKey").value = p ? p.catKey : "vases";
+    $("#pPrice").value = p ? p.price : "";
+    $("#pStock").value = p ? p.stock : 0;
+    $("#pNameFr").value = p ? p.name.fr : "";
+    $("#pNameEn").value = p ? p.name.en : "";
+    $("#pNameAr").value = p && p.name.ar ? p.name.ar : "";
+    $("#pMaterialFr").value = p ? p.material.fr : "";
+    $("#pMaterialEn").value = p ? p.material.en : "";
+    $("#pMaterialAr").value = p && p.material.ar ? p.material.ar : "";
+    $("#pDescFr").value = p ? p.desc.fr : "";
+    $("#pDescEn").value = p ? p.desc.en : "";
+    $("#pDescAr").value = p && p.desc.ar ? p.desc.ar : "";
+    $("#pLongFr").value = p && p.long ? (p.long.fr || "") : "";
+    $("#pLongEn").value = p && p.long ? (p.long.en || "") : "";
+    $("#pLongAr").value = p && p.long ? (p.long.ar || "") : "";
+    $("#pActive").checked = p ? !!p.isActive : true;
+    $("#pPhotoPreview").src = p && p.imagePath ? "assets/" + p.imagePath : "assets/logo-2.png";
+    $("#pPhotoFile").value = "";
+    $("#productModal").classList.remove("hidden");
+  }
+  function closeProductModal(){ $("#productModal").classList.add("hidden"); editingId = null; }
+
+  $("#newProductBtn").addEventListener("click", function(){ openProductModal(null); });
+  $("#productModalClose").addEventListener("click", closeProductModal);
+  $("#productFormCancel").addEventListener("click", closeProductModal);
+
+  $("#productForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var payload = {
+      catKey: $("#pCatKey").value,
+      icon: "vase",
+      price: parseInt($("#pPrice").value, 10),
+      stock: parseInt($("#pStock").value, 10),
+      isActive: $("#pActive").checked,
+      name: { fr: $("#pNameFr").value, en: $("#pNameEn").value, ar: $("#pNameAr").value || null },
+      material: { fr: $("#pMaterialFr").value, en: $("#pMaterialEn").value, ar: $("#pMaterialAr").value || null },
+      desc: { fr: $("#pDescFr").value, en: $("#pDescEn").value, ar: $("#pDescAr").value || null },
+      long: { fr: $("#pLongFr").value || null, en: $("#pLongEn").value || null, ar: $("#pLongAr").value || null }
+    };
+
+    var id = $("#pId").value;
+    var req = id
+      ? apiFetch("/admin/products/" + id, { method: "PUT", headers: {"Content-Type":"application/json"}, body: JSON.stringify(payload) })
+      : apiFetch("/admin/products", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(payload) });
+
+    req.then(function(saved){
+      var file = $("#pPhotoFile").files[0];
+      if(file){
+        var fd = new FormData();
+        fd.append("photo", file);
+        return apiFetch("/admin/products/" + saved.id + "/photo", { method: "POST", body: fd });
+      }
+    }).then(function(){
+      closeProductModal();
+      loadProducts();
+    }).catch(function(err){ alert(err.message); });
+  });
+
+  /* ---------------- ORDERS ---------------- */
+  function loadOrders(){
+    apiFetch("/admin/orders").then(function(orders){
+      state.orders = orders;
+      renderOrders();
+    });
+  }
+
+  function renderOrders(){
+    var list = $("#ordersList");
+    list.innerHTML = state.orders.map(function(o){
+      var items = o.items.map(function(i){ return escapeHtml(i.name) + ' × ' + i.qty; }).join(', ');
+      var who = o.guestName || o.guestEmail || ("Client #" + (o.userId || '?'));
+      var payLabel = o.paymentMethod === 'card'
+        ? '💳 Carte' + (o.cardLast4 ? ' ····' + o.cardLast4 : '')
+        : '💵 À la livraison';
+      var payStatus = o.paymentStatus === 'paid'
+        ? '<span class="text-xs font-semibold text-leafDeep bg-leaf/10 px-2 py-1 rounded-full">Payée</span>'
+        : '<span class="text-xs font-semibold text-clay bg-clay/10 px-2 py-1 rounded-full">Non payée</span>';
+      return '' +
+        '<div class="bg-white rounded-xl border border-kraft p-4 flex flex-wrap items-center justify-between gap-3">' +
+          '<div>' +
+            '<div class="font-semibold text-canopy">Commande #' + o.id + ' — ' + escapeHtml(who) + '</div>' +
+            '<div class="text-sm text-canopy/60">' + items + '</div>' +
+            '<div class="text-xs text-canopy/40 mono">' + o.createdAt + '</div>' +
+            '<div class="text-xs text-canopy/70 mt-1 flex items-center gap-2">' + payLabel + ' ' + payStatus + '</div>' +
+          '</div>' +
+          '<div class="flex items-center gap-3">' +
+            '<span class="mono font-semibold">' + o.total + ' MAD</span>' +
+            '<select data-order="' + o.id + '" class="field-input !w-auto text-sm">' +
+              '<option value="pending"' + (o.status==='pending'?' selected':'') + '>En attente</option>' +
+              '<option value="confirmed"' + (o.status==='confirmed'?' selected':'') + '>Confirmée</option>' +
+              '<option value="cancelled"' + (o.status==='cancelled'?' selected':'') + '>Annulée</option>' +
+            '</select>' +
+          '</div>' +
+        '</div>';
+    }).join("");
+    $("#ordersEmpty").classList.toggle("hidden", state.orders.length > 0);
+
+    $all("[data-order]").forEach(function(sel){
+      sel.addEventListener("change", function(){
+        apiFetch("/admin/orders/" + sel.dataset.order + "/status", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: sel.value })
+        }).then(loadOrders);
+      });
+    });
+  }
+
+  function escapeHtml(s){
+    return String(s || "").replace(/[&<>"']/g, function(c){
+      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c];
+    });
+  }
+
+  checkSession();
+})();
+</script>
+</body>
+</html>
