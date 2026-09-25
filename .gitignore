@@ -1,16 +1,21 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
+# Environment & Secrets
 .env
-.venv/
-venv/
-ENV/
+*.env.local
 
-# Archives & Temp
+# Server & Error Logs
+error_log
+*.log
+
+# Composer & Node dependencies
+/vendor/
+/node_modules/
+
+# OS & Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Archives
 *.zip
 *.tar.gz
-
-# Database (optional - uncomment if you want the db committed)
-# backend/decorna.db

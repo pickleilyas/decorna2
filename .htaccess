@@ -1,0 +1,15 @@
+# Decorna Apache Configuration (XAMPP / WAMP / Apache)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Route /api/ requests to the PHP backend
+    RewriteRule ^api/(.*)$ backend/index.php [QSA,L]
+
+    # Serve existing files and directories directly
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Fallback to index.html for SPA routing
+    RewriteRule ^ index.html [L]
+</IfModule>

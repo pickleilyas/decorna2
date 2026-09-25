@@ -38,67 +38,20 @@
           paperDeep: 'var(--paper-deep)'
         },
         keyframes: {
-          glowPulse: { '0%,100%': { transform:'scale(1)', opacity:'.85' }, '50%': { transform:'scale(1.08)', opacity:'1' } },
-          ringSpin: { to: { transform:'rotate(360deg)' } },
-          floatParticle: { '0%,100%': { transform:'translateY(0) rotate(0deg)' }, '50%': { transform:'translateY(-18px) rotate(12deg)' } },
-          shimmer: { '0%': { left:'-60%' }, '35%,100%': { left:'130%' } },
-          badgePulse: { '0%,100%': { boxShadow:'0 0 0 0 rgba(111,194,180,.55)' }, '50%': { boxShadow:'0 0 0 8px rgba(111,194,180,0)' } },
-          cardIn: { from:{ opacity:'0', transform:'translateY(16px) scale(.98)' }, to:{ opacity:'1', transform:'translateY(0) scale(1)' } },
-          fadeInUp: { from:{ opacity:'0', transform:'translateY(18px)' }, to:{ opacity:'1', transform:'translateY(0)' } },
-          spinSlow: { to: { transform:'rotate(360deg)' } },
-          tilt3d: {
-            '0%,100%': { transform:'perspective(1000px) rotateY(-14deg) rotateX(4deg)' },
-            '50%': { transform:'perspective(1000px) rotateY(14deg) rotateX(-2deg)' }
-          },
-          floatY: {
-            '0%,100%': { transform:'translateY(0)' },
-            '50%': { transform:'translateY(-14px)' }
-          },
-          vaseWander: {
-            '0%,100%':  { transform:'translate(0,0) rotate(0deg)' },
-            '20%':      { transform:'translate(-38px,-46px) rotate(-6deg)' },
-            '40%':      { transform:'translate(-70px,10px) rotate(4deg)' },
-            '60%':      { transform:'translate(-24px,54px) rotate(-3deg)' },
-            '80%':      { transform:'translate(30px,18px) rotate(5deg)' }
-          },
-          wordIn: {
-            from:{ opacity:'0', transform:'translateY(.5em) rotate(-2deg)' },
-            to:{ opacity:'1', transform:'translateY(0) rotate(0deg)' }
-          },
-          blobDrift: {
-            '0%,100%': { transform:'translate(0,0) scale(1)' },
-            '33%': { transform:'translate(30px,-24px) scale(1.08)' },
-            '66%': { transform:'translate(-24px,20px) scale(.95)' }
-          }
+          cardIn: { from:{ opacity:'0', transform:'translateY(12px)' }, to:{ opacity:'1', transform:'translateY(0)' } },
+          fadeInUp: { from:{ opacity:'0', transform:'translateY(14px)' }, to:{ opacity:'1', transform:'translateY(0)' } }
         },
         animation: {
-          'glow-pulse': 'glowPulse 4.5s ease-in-out infinite',
-          'ring-spin': 'ringSpin 22s linear infinite',
-          'float': 'floatParticle linear infinite',
-          'shimmer': 'shimmer 3.2s ease-in-out infinite',
-          'badge-pulse': 'badgePulse 2.6s ease-in-out infinite',
-          'card-in': 'cardIn .5s cubic-bezier(.2,.7,.2,1) both',
-          'fade-in-up': 'fadeInUp .8s cubic-bezier(.2,.7,.2,1) both',
-          'tilt-3d': 'tilt3d 7s ease-in-out infinite',
-          'float-y': 'floatY 4.5s ease-in-out infinite',
-          'vase-wander': 'vaseWander 22s ease-in-out infinite',
-          'word-in': 'wordIn .6s cubic-bezier(.2,.7,.2,1) both',
-          'blob-drift': 'blobDrift 14s ease-in-out infinite'
+          'card-in': 'cardIn .4s cubic-bezier(.2,.7,.2,1) both',
+          'fade-in-up': 'fadeInUp .5s cubic-bezier(.2,.7,.2,1) both'
         }
       }
     }
   };
 </script>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=2.5">
 </head>
 <body>
-
-  <!-- Scroll progress indicator -->
-  <div id="scrollProgress" class="fixed top-0 left-0 h-[3px] bg-[linear-gradient(90deg,var(--teal-deep),var(--leaf-deep))] z-[500] w-0" aria-hidden="true"></div>
-
-  <!-- Ambient cursor-follow glow (desktop only, purely decorative) -->
-  <div id="cursorGlow" class="hidden md:block fixed w-[340px] h-[340px] rounded-full pointer-events-none z-[1] opacity-0 transition-opacity duration-500"
-       style="background:radial-gradient(circle, rgba(111,194,180,.16), transparent 70%); mix-blend-mode:multiply; will-change:transform;" aria-hidden="true"></div>
 
   <!-- LOADER -->
   <div id="loader">
@@ -171,74 +124,123 @@
     <!-- HOME -->
     <section class="view active" id="view-home">
       <div class="hero">
-        <div>
-          <span class="eyebrow" data-i18n="eyebrow_home">Lycée Al Fath · Khemisset · Maroc</span>
-          <h1 data-i18n="hero_title">Du carton et du plastique, devenus déco.</h1>
-          <p class="lede" data-i18n="hero_lede">Decorna est une petite entreprise scolaire qui collecte le carton et le plastique de Khemisset pour les transformer en objets de décoration faits à la main. Chaque pièce que vous achetez évite des déchets à la nature.</p>
+        <div class="hero-content">
+          <div class="hero-eyebrow">
+            <span class="hero-eyebrow-line" aria-hidden="true"></span>
+            <span class="hero-eyebrow-text" data-i18n="eyebrow_home">Lycée Al Fath · Khemisset · Maroc</span>
+          </div>
+
+          <h1 data-i18n="hero_title">Du plastique recyclé, devenu déco.</h1>
+          <p class="lede" data-i18n="hero_lede">Decorna est une entreprise scolaire née au Lycée Al Fath à Khemisset. Nous collectons le plastique abandonné pour le transformer, à la main, en pièces de décoration durables et uniques.</p>
+
           <div class="hero-actions">
             <button class="btn btn-primary" data-nav="products">
               <span data-i18n="see_products">Voir les produits</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </button>
             <button class="btn btn-outline" data-nav="about" data-i18n="our_story_btn">Notre histoire</button>
           </div>
-          <div class="stats-row">
-            <div class="stat"><strong>+<span class="stat-num" data-target="350" style="--num:0"></span> kg</strong><span data-i18n="stat_waste">Déchets recyclés</span></div>
-            <div class="stat"><strong><span class="stat-num" data-target="9" style="--num:0"></span></strong><span data-i18n="stat_designs">Modèles créés</span></div>
-            <div class="stat"><strong><span class="stat-num" data-target="100" style="--num:0"></span>%</strong><span data-i18n="stat_students">Fait par des élèves</span></div>
+
+          <!-- Editorial Stats (Understated, Authentic) -->
+          <div class="hero-stats">
+            <div class="hero-stat-item">
+              <div class="hero-stat-value">
+                <span class="hero-stat-prefix">+</span><span class="stat-num" data-target="350"></span><span class="hero-stat-unit">kg</span>
+              </div>
+              <span class="hero-stat-label" data-i18n="stat_waste">Déchets recyclés</span>
+            </div>
+            <div class="hero-stat-sep" aria-hidden="true"></div>
+            <div class="hero-stat-item">
+              <div class="hero-stat-value">
+                <span class="stat-num" data-target="9"></span>
+              </div>
+              <span class="hero-stat-label" data-i18n="stat_designs">Modèles créés</span>
+            </div>
+            <div class="hero-stat-sep" aria-hidden="true"></div>
+            <div class="hero-stat-item">
+              <div class="hero-stat-value">
+                <span class="stat-num" data-target="100"></span><span class="hero-stat-unit">%</span>
+              </div>
+              <span class="hero-stat-label" data-i18n="stat_students">Fait par les élèves</span>
+            </div>
           </div>
         </div>
-        <div class="hero-art relative">
-          <div class="absolute inset-[6%] rounded-full bg-[radial-gradient(circle_at_50%_45%,rgba(111,194,180,.45),rgba(111,194,180,.12)_55%,transparent_72%)] blur-[6px] animate-glow-pulse pointer-events-none z-0" aria-hidden="true"></div>
-          <div class="absolute inset-[14%] rounded-full border border-dashed border-tealDeep/35 animate-ring-spin pointer-events-none z-0" aria-hidden="true"></div>
-          <span class="particle absolute z-0 pointer-events-none opacity-60 text-leafDeep w-[22px] h-[22px] top-[10%] left-[6%] animate-float [animation-duration:9s]" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c5 2 7 6 7 10-4 0-8-2-10-7-1-2 0-3 3-3z"/></svg></span>
-          <span class="particle absolute z-0 pointer-events-none opacity-60 text-tealDeep w-[14px] h-[14px] top-[70%] left-[12%] animate-float [animation-duration:7s] [animation-delay:1.2s]" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg></span>
-          <span class="particle absolute z-0 pointer-events-none opacity-60 text-leafDeep w-[18px] h-[18px] top-[20%] left-[82%] animate-float [animation-duration:10s] [animation-delay:.5s]" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c5 2 7 6 7 10-4 0-8-2-10-7-1-2 0-3 3-3z"/></svg></span>
-          <span class="particle absolute z-0 pointer-events-none opacity-60 text-tealDeep w-[12px] h-[12px] top-[78%] left-[80%] animate-float [animation-duration:8s] [animation-delay:2s]" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg></span>
-          <div class="relative z-[1] flex items-center justify-center w-[85%] h-[85%] [perspective:1000px] animate-float-y" style="filter:drop-shadow(0 20px 26px rgba(28,36,24,.25));">
-            <div class="hero-video-frame w-full h-full rounded-[26px] overflow-hidden cursor-pointer [transform-style:preserve-3d]"
-                 data-nav="products">
-              <video class="hero-product-video w-full h-full object-cover" autoplay muted loop playsinline preload="none"
+
+        <!-- Artisanal Showcase Gallery Plate (Right Side) -->
+        <div class="hero-visual">
+          <div class="hero-gallery-plate">
+            <div class="hero-plate-media" data-nav="products">
+              <video class="hero-product-video" autoplay muted loop playsinline preload="none"
                      poster="assets/videos/products-showcase-poster.jpg" aria-label="Vidéo de présentation des produits Decorna">
                 <source src="assets/videos/products-showcase.mp4" type="video/mp4">
               </video>
-              <div class="hero-video-ring" aria-hidden="true"></div>
+            </div>
+            <div class="hero-plate-caption">
+              <div class="hero-plate-title">Atelier Decorna</div>
+              <div class="hero-plate-meta">Collection 2026 · Khemisset</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- RECYCLING PROCESS — BACKGROUND VIDEO -->
-      <div class="video-hero video-hero--lively" id="recyclingVideo">
-        <video class="video-hero-media video-hero-media--kenburns" autoplay muted loop playsinline preload="none"
+      <!-- ATELIER PILLARS — 3 CRAFT FOUNDATIONS -->
+      <section class="atelier-pillars" aria-label="Les piliers de notre atelier">
+        <div class="pillar-card">
+          <span class="pillar-num">01</span>
+          <h3 class="pillar-title" data-i18n="pillar1_title">Collecte locale &amp; tri</h3>
+          <p class="pillar-desc" data-i18n="pillar1_desc">Plastiques propres récupérés auprès des commerçants de proximité à Khemisset.</p>
+        </div>
+        <div class="pillar-card">
+          <span class="pillar-num">02</span>
+          <h3 class="pillar-title" data-i18n="pillar2_title">Façonnage artisanal</h3>
+          <p class="pillar-desc" data-i18n="pillar2_desc">Découpe de précision, renfort structurel et finitions soignées réalisées à la main par les élèves du Lycée Al Fath.</p>
+        </div>
+        <div class="pillar-card">
+          <span class="pillar-num">03</span>
+          <h3 class="pillar-title" data-i18n="pillar3_title">Design circulaire</h3>
+          <p class="pillar-desc" data-i18n="pillar3_desc">Une seconde vie noble sous forme d'objets singuliers et durables, pensés pour embellir les intérieurs avec sens.</p>
+        </div>
+      </section>
+
+      <!-- RECYCLING PROCESS — DOCUMENTARY BANNER -->
+      <div class="video-hero" id="recyclingVideo">
+        <video class="video-hero-media" autoplay muted loop playsinline preload="none"
                poster="assets/videos/recycling-hero-poster.jpg">
           <source src="assets/videos/recycling-hero.mp4" type="video/mp4">
         </video>
-        <div class="video-hero-fallback" aria-hidden="true">
-          <span class="vh-icon vh-1">♻️</span>
-          <span class="vh-icon vh-2">🧴</span>
-          <span class="vh-icon vh-3">📦</span>
-          <span class="vh-icon vh-4">🌿</span>
-        </div>
         <div class="video-hero-overlay"></div>
-        <div class="video-hero-badges" aria-hidden="true">
-          <span class="vh-badge vh-badge-1">♻️ <strong>+350&nbsp;kg</strong> recyclés</span>
-          <span class="vh-badge vh-badge-2">✂️ Fait main</span>
-          <span class="vh-badge vh-badge-3">🌱 100% élèves</span>
-        </div>
-        <span class="video-hero-pulse-dot" aria-hidden="true"><span></span></span>
         <div class="video-hero-content">
-          <span class="eyebrow" style="color:var(--white);" data-i18n="video_eyebrow">⚡ La magie du recyclage</span>
-          <h2 data-i18n="video_title">Regarde le déchet devenir déco, en direct</h2>
-          <p data-i18n="video_desc">Ici, rien ne se jette : du carton froissé et du plastique récupéré à Khemisset se transforment, sous les mains de nos élèves, en pièces uniques que tu ne trouveras nulle part ailleurs.</p>
+          <span class="video-hero-tag" data-i18n="video_eyebrow">Documentaire Atelier · Khemisset</span>
+          <h2 data-i18n="video_title">De la matière brute à l'objet singulier</h2>
+          <p data-i18n="video_desc">À Khemisset, le plastique collecté trouve une seconde vie entre les mains des élèves du Lycée Al Fath. Chaque création témoigne d'un savoir-faire artisanal et d'un engagement environnemental concret.</p>
+        </div>
+        <div class="video-hero-meta" aria-hidden="true">
+          <span>+350 kg revalorisés</span>
+          <span class="video-meta-sep">/</span>
+          <span>100% fait main</span>
+          <span class="video-meta-sep">/</span>
+          <span>Lycée Al Fath</span>
         </div>
       </div>
 
+      <!-- BEST-SELLERS -->
       <div class="section-head">
-        <h2 data-i18n="bestsellers_title">Nos best-sellers</h2>
+        <div>
+          <span class="section-eyebrow" data-i18n="bestsellers_eyebrow">Sélection de l'Atelier</span>
+          <h2 data-i18n="bestsellers_title">Nos créations phares</h2>
+        </div>
         <button class="btn btn-outline" data-nav="products" data-i18n="view_all">Tout voir</button>
       </div>
       <div class="mini-grid" id="homeFeatured"></div>
+
+      <!-- ATELIER QUOTE / HUMAN STORY -->
+      <div class="atelier-manifesto-quote">
+        <div class="quote-symbol" aria-hidden="true">“</div>
+        <blockquote data-i18n="home_quote">
+          Transformer un déchet en objet d'artisanat, c'est redonner de la valeur à ce que l'on ne regardait plus, tout en formant les créateurs de demain.
+        </blockquote>
+        <cite data-i18n="home_quote_author">— L'Atelier Decorna · Élèves entrepreneurs du Lycée Al Fath, Khemisset</cite>
+      </div>
     </section>
 
     <!-- PRODUCTS -->
@@ -255,7 +257,7 @@
       <div class="chips" id="chipRow"></div>
 
       <div class="product-grid" id="productGrid" style="margin-top:22px;"></div>
-      <div class="empty-state" id="emptyState" style="display:none;margin-top:22px;" data-i18n="empty_state">Aucun produit ne correspond à ta recherche. Essaie un autre mot-clé 🌿</div>
+      <div class="empty-state" id="emptyState" style="display:none;margin-top:22px;" data-i18n="empty_state">Aucun produit ne correspond à votre recherche. Essayez un autre mot-clé.</div>
     </section>
 
     <!-- PRODUCT DETAILS — its own page, separate from the products list -->
@@ -289,17 +291,15 @@
 
     <!-- ABOUT -->
     <section class="view relative" id="view-about">
-      <div class="absolute -z-10 top-[6%] left-[2%] w-[220px] h-[220px] rounded-full bg-[radial-gradient(circle,rgba(111,194,180,.22),transparent_70%)] blur-2xl animate-blob-drift pointer-events-none" aria-hidden="true"></div>
-      <div class="absolute -z-10 top-[40%] right-[4%] w-[260px] h-[260px] rounded-full bg-[radial-gradient(circle,rgba(58,140,90,.16),transparent_70%)] blur-2xl animate-blob-drift [animation-delay:3s] pointer-events-none" aria-hidden="true"></div>
       <span class="eyebrow" data-i18n="eyebrow_story">Notre histoire</span>
       <h2 style="font-size:1.9rem;" data-i18n="about_title">Une entreprise née dans un lycée</h2>
       <div class="about-intro">
-        <p data-i18n="about_p1">Decorna est un projet entrepreneurial porté par des élèves du Lycée Al Fath, à Khemisset. Notre constat est simple : le carton et le plastique jetés chaque jour peuvent devenir de belles pièces pour la maison, au lieu de finir à la décharge.</p>
+        <p data-i18n="about_p1">Decorna est un projet entrepreneurial porté par des élèves du Lycée Al Fath, à Khemisset. Notre constat est simple : le plastique jeté chaque jour peut devenir de belles pièces pour la maison, au lieu de finir à la décharge.</p>
         <p data-i18n="about_p2">Nous récupérons les matériaux auprès de commerces et de familles du quartier, puis nous les nettoyons, les renforçons et les transformons en vases, lampes, cadres et objets de rangement, entièrement façonnés à la main par notre équipe.</p>
       </div>
 
       <div class="steps-grid">
-        <div class="step-card animate-card-in [animation-delay:.05s]"><span class="step-num">01</span><h4 data-i18n="step1_title">Collecte</h4><p data-i18n="step1_desc">On récupère carton et plastique auprès des commerces et habitants de Khemisset.</p></div>
+        <div class="step-card animate-card-in [animation-delay:.05s]"><span class="step-num">01</span><h4 data-i18n="step1_title">Collecte</h4><p data-i18n="step1_desc">On récupère le plastique auprès des commerces et habitants de Khemisset.</p></div>
         <div class="step-card animate-card-in [animation-delay:.15s]"><span class="step-num">02</span><h4 data-i18n="step2_title">Tri</h4><p data-i18n="step2_desc">Chaque matériau est nettoyé et trié selon sa solidité et sa couleur.</p></div>
         <div class="step-card animate-card-in [animation-delay:.25s]"><span class="step-num">03</span><h4 data-i18n="step3_title">Transformation</h4><p data-i18n="step3_desc">Découpe, renforcement et assemblage à la main par les élèves.</p></div>
         <div class="step-card animate-card-in [animation-delay:.35s]"><span class="step-num">04</span><h4 data-i18n="step4_title">Création</h4><p data-i18n="step4_desc">Peinture, finitions et contrôle qualité avant la mise en vente.</p></div>
@@ -312,11 +312,26 @@
           <p data-i18n="credit_desc">Decorna est conçu et géré par des lycéens du Lycée Al Fath de Khemisset, dans le cadre d'un projet entrepreneurial scolaire centré sur le recyclage local.</p>
         </div>
       </div>
+      
+      <div class="about-contact" style="margin-top:64px; padding:48px 32px; background:var(--paper); border-radius:var(--radius); text-align:center; border: 1px solid var(--kraft);">
+        <span class="eyebrow" data-i18n="contact_eyebrow" style="margin-bottom:12px; justify-content:center;">Nous contacter</span>
+        <h3 style="font-size:1.8rem; font-family:'Fraunces', serif; color:var(--ink); margin-bottom:16px;" data-i18n="contact_title">Une question ? Un partenariat ?</h3>
+        <p style="color:var(--muted-text-2); max-width:600px; margin:0 auto 32px; font-size:1.05rem;" data-i18n="contact_desc">L'équipe Decorna est à votre écoute pour toute demande d'information, commande sur mesure ou proposition de collaboration.</p>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:24px; justify-content:center;">
+          <a href="mailto:decornacontact@gmail.com" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            <span data-i18n="contact_btn_email">Nous écrire par email</span>
+          </a>
+          <a href="https://instagram.com/decorna.officiel" target="_blank" rel="noopener" class="btn btn-outline" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+            <span data-i18n="contact_btn_ig">Instagram</span>
+          </a>
+        </div>
+      </div>
     </section>
 
     <section class="view relative" id="view-team">
-      <div class="absolute -z-10 top-[8%] right-[3%] w-[240px] h-[240px] rounded-full bg-[radial-gradient(circle,rgba(9,188,97,.18),transparent_70%)] blur-2xl animate-blob-drift pointer-events-none" aria-hidden="true"></div>
-      <div class="absolute -z-10 top-[55%] left-[2%] w-[200px] h-[200px] rounded-full bg-[radial-gradient(circle,rgba(46,120,115,.2),transparent_70%)] blur-2xl animate-blob-drift [animation-delay:2s] pointer-events-none" aria-hidden="true"></div>
       <h2 class="team-page-title" data-i18n="team_title">L'équipe</h2>
       <div class="about-intro">
         <p data-i18n="team_intro">Nous croyons que réunir des personnes dans le meilleur cadre possible, autour de valeurs communes fortes, donne naissance à de grandes choses. Decorna est une aventure humaine portée par une petite équipe soudée.</p>
@@ -348,9 +363,7 @@
           <span class="team-role" data-i18n="team4_role">DTV — Directeur Technologie &amp; Développement</span>
         </div>
         <div class="team-card animate-card-in" style="animation-delay:.24s;">
-          <div class="team-photo">
-            <img src="assets/team/sara-boushaba.jpg" alt="Sara Boushaba" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
-          </div>
+          <div class="team-photo" style="background:linear-gradient(145deg, var(--leaf-deep), var(--teal));"><span class="team-initials">SB</span></div>
           <div class="team-gradient-bar" style="background:linear-gradient(90deg, var(--leaf-deep), var(--teal));"></div>
           <h4 data-i18n="team5_name">Sara Boushaba</h4>
           <span class="team-role" data-i18n="team5_role">RTV — Responsable Technologie &amp; Développement</span>
@@ -384,14 +397,14 @@
             </div>
 
             <form class="auth-form active" id="loginForm">
-              <div class="field"><label for="loginEmail" data-i18n="label_email">Adresse e-mail</label><input type="email" id="loginEmail" required placeholder="toi@exemple.com" data-i18n-placeholder="placeholder_email"></div>
+              <div class="field"><label for="loginEmail" data-i18n="label_email">Adresse e-mail</label><input type="email" id="loginEmail" required placeholder="contact@exemple.com" data-i18n-placeholder="placeholder_email"></div>
               <div class="field"><label for="loginPass" data-i18n="label_password">Mot de passe</label><input type="password" id="loginPass" required placeholder="••••••••"></div>
               <button type="submit" class="btn btn-primary btn-block" data-i18n="tab_login">Se connecter</button>
             </form>
 
             <form class="auth-form" id="signupForm">
-              <div class="field"><label for="suName" data-i18n="label_fullname">Nom complet</label><input type="text" id="suName" required placeholder="Ton nom" data-i18n-placeholder="placeholder_name"></div>
-              <div class="field"><label for="suEmail" data-i18n="label_email">Adresse e-mail</label><input type="email" id="suEmail" required placeholder="toi@exemple.com" data-i18n-placeholder="placeholder_email"></div>
+              <div class="field"><label for="suName" data-i18n="label_fullname">Nom complet</label><input type="text" id="suName" required placeholder="Votre nom" data-i18n-placeholder="placeholder_name"></div>
+              <div class="field"><label for="suEmail" data-i18n="label_email">Adresse e-mail</label><input type="email" id="suEmail" required placeholder="contact@exemple.com" data-i18n-placeholder="placeholder_email"></div>
               <div class="field"><label for="suPass" data-i18n="label_password">Mot de passe</label><input type="password" id="suPass" required placeholder="••••••••"></div>
               <button type="submit" class="btn btn-primary btn-block" data-i18n="btn_signup_submit">Créer mon compte</button>
             </form>
@@ -401,7 +414,7 @@
         <div id="accountBlock" style="display:none;">
           <div class="auth-card account-card">
             <div class="avatar-circle" id="avatarInitial">D</div>
-            <h3 id="accountGreeting">Bonjour 👋</h3>
+            <h3 id="accountGreeting">Bonjour</h3>
             <p style="color:#48533f;font-size:.9rem;" id="accountEmail"></p>
             <div class="order-empty"><span data-i18n="order_empty_pre">Tu n'as pas encore de commande. Va faire un tour dans nos </span><button data-nav="products" data-i18n="order_empty_link" style="background:none;border:none;text-decoration:underline;color:var(--canopy-dark);font-weight:700;cursor:pointer;padding:0;font-family:inherit;">produits</button><span data-i18n="order_empty_post"> !</span></div>
             <button class="btn btn-outline btn-block" id="logoutBtn" style="margin-top:16px;" data-i18n="btn_logout">Se déconnecter</button>
@@ -415,16 +428,7 @@
 
   <!-- FOOTER (contact, shown at the bottom of every view) -->
   
-<section class="gallery-section relative">
-<div class="absolute -z-10 top-[10%] right-[6%] w-[200px] h-[200px] rounded-full bg-[radial-gradient(circle,rgba(111,194,180,.2),transparent_70%)] blur-2xl animate-blob-drift pointer-events-none" aria-hidden="true"></div>
-<h2 data-i18n="gallery_title">Galerie Decorna</h2>
-<p data-i18n="gallery_sub">Quelques inspirations de décoration recyclée.</p>
-<div class="gallery-grid">
-<img src="heqart.jpeg" alt="Décoration recyclée" data-i18n-alt="alt_deco1">
-<img src="cociaga.jpeg" alt="Lampe décorative" data-i18n-alt="alt_deco2">
-<img src="bear.jpeg" alt="Intérieur écologique" data-i18n-alt="alt_deco3">
-</div>
-</section>
+
 
 <footer class="site-footer">
     <div class="footer-inner">
@@ -435,13 +439,13 @@
         <p data-i18n="footer_desc">Déco recyclée fabriquée à Khemisset par les élèves du Lycée Al Fath, Maroc.</p>
       </div>
       <div class="footer-contact">
-        <a class="contact-link" href="https://instagram.com/decorna_officiel" target="_blank" rel="noopener">
+        <a class="contact-link" href="https://instagram.com/decorna.officiel" target="_blank" rel="noopener">
           <span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg></span>
-          @decorna_officiel
+          @decorna.officiel
         </a>
-        <a class="contact-link" href="https://facebook.com/DecornaDecornaofficiel" target="_blank" rel="noopener">
+        <a class="contact-link" href="https://facebook.com/Decornaofficiel" target="_blank" rel="noopener">
           <span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 4h-2a4 4 0 0 0-4 4v3H7v3h2v6h3v-6h2.5l.5-3H12V8a1 1 0 0 1 1-1h2z"/></svg></span>
-          Decorna Decornaofficiel
+          Decorna Officiel
         </a>
         <a class="contact-link" href="mailto:decornacontact@gmail.com">
           <span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
@@ -500,15 +504,6 @@
     </div>
   </aside>
 
-  <!-- FLOATING LOGO MASCOT — roams the site & reacts to cursor movement -->
-  <div id="floatingVase" class="hidden md:block fixed z-[40] right-5 bottom-6 w-[92px] h-[40px] pointer-events-none animate-vase-wander" aria-hidden="true">
-    <img id="floatingVaseImg" src="assets/logo-2.png" alt="Decorna"
-         data-nav="home"
-         class="w-full h-full object-contain cursor-pointer pointer-events-auto select-none
-                drop-shadow-[0_10px_14px_rgba(28,36,24,.35)]
-                transition-transform duration-300 ease-out will-change-transform">
-  </div>
-
   <!-- DECO CHATBOT -->
   <button class="deco-btn" id="decoBtn" aria-label="Ouvrir l'assistant DECO" data-i18n-aria="aria_deco_open">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="12" rx="3"/><path d="M9 21l3-4 3 4"/><circle cx="9" cy="11" r="1.2" fill="currentColor"/><circle cx="15" cy="11" r="1.2" fill="currentColor"/></svg>
@@ -535,6 +530,6 @@
     </div>
   </div>
 
-<script src="script.js"></script>
+<script src="script.js?v=2.4"></script>
 </body>
 </html>

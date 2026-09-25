@@ -1,0 +1,15 @@
+# Decorna Backend Apache Configuration
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Prevent direct access to sensitive PHP files except index.php and setup.php
+    <FilesMatch "^(schema\.sql|products_seed\.json)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+
+    # If file doesn't exist, forward to index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>

@@ -132,17 +132,17 @@
       <input type="hidden" id="pId">
 
       <div>
-        <label class="field-label">Photo</label>
+        <label class="field-label">Photo du produit</label>
         <div class="flex items-center gap-4">
-          <img id="pPhotoPreview" class="w-20 h-20 rounded-lg object-cover bg-paperDeep border border-kraft" src="" alt="">
+          <img id="pPhotoPreview" class="w-20 h-20 rounded-lg object-cover bg-paperDeep border border-kraft shadow-sm" src="assets/logo-2.png" alt="Aperçu photo">
           <input type="file" id="pPhotoFile" accept="image/png,image/jpeg,image/webp" class="text-sm">
         </div>
-        <p class="text-xs text-canopy/50 mt-1">Enregistrez d'abord le produit, puis ajoutez sa photo — elle s'affiche aussitôt sur le site.</p>
+        <p class="text-xs text-canopy/60 mt-1">Sélectionnez une image (PNG, JPG, WebP) — elle sera téléversée automatiquement et visible aussitôt sur le site.</p>
       </div>
 
       <div class="grid grid-cols-3 gap-4">
         <div>
-          <label class="field-label">Catégorie</label>
+          <label class="field-label">Catégorie *</label>
           <select id="pCatKey" class="field-input">
             <option value="vases">Vases</option>
             <option value="lighting">Luminaires</option>
@@ -154,57 +154,57 @@
           </select>
         </div>
         <div>
-          <label class="field-label">Prix (MAD)</label>
-          <input type="number" id="pPrice" min="0" class="field-input" required>
+          <label class="field-label">Prix (MAD) *</label>
+          <input type="number" id="pPrice" min="0" class="field-input" placeholder="ex: 150" required>
         </div>
         <div>
-          <label class="field-label">Stock (unités)</label>
-          <input type="number" id="pStock" min="0" class="field-input" required>
+          <label class="field-label">Stock (unités) *</label>
+          <input type="number" id="pStock" min="0" class="field-input" placeholder="ex: 10" required>
         </div>
       </div>
 
       <div class="grid grid-cols-3 gap-3">
-        <div><label class="field-label">Nom (FR)</label><input class="field-input" id="pNameFr" required></div>
-        <div><label class="field-label">Nom (EN)</label><input class="field-input" id="pNameEn" required></div>
-        <div><label class="field-label">Nom (AR)</label><input class="field-input" id="pNameAr" dir="rtl"></div>
+        <div><label class="field-label">Nom (FR) *</label><input class="field-input" id="pNameFr" placeholder="ex: Vase Mawja" required></div>
+        <div><label class="field-label">Nom (EN)</label><input class="field-input" id="pNameEn" placeholder="Optionnel (FR si vide)"></div>
+        <div><label class="field-label">Nom (AR)</label><input class="field-input" id="pNameAr" dir="rtl" placeholder="اختياري"></div>
       </div>
 
       <div class="grid grid-cols-3 gap-3">
-        <div><label class="field-label">Matière (FR)</label><input class="field-input" id="pMaterialFr" required></div>
-        <div><label class="field-label">Matière (EN)</label><input class="field-input" id="pMaterialEn" required></div>
-        <div><label class="field-label">Matière (AR)</label><input class="field-input" id="pMaterialAr" dir="rtl"></div>
+        <div><label class="field-label">Matière (FR) *</label><input class="field-input" id="pMaterialFr" placeholder="ex: Plastique recyclé" required></div>
+        <div><label class="field-label">Matière (EN)</label><input class="field-input" id="pMaterialEn" placeholder="Optionnel (FR si vide)"></div>
+        <div><label class="field-label">Matière (AR)</label><input class="field-input" id="pMaterialAr" dir="rtl" placeholder="اختياري"></div>
       </div>
 
       <div>
-        <label class="field-label">Description courte (FR)</label>
-        <textarea class="field-input" id="pDescFr" rows="2" required></textarea>
+        <label class="field-label">Description courte (FR) *</label>
+        <textarea class="field-input" id="pDescFr" rows="2" placeholder="Courte phrase d'accroche pour la carte produit" required></textarea>
       </div>
       <div>
         <label class="field-label">Description courte (EN)</label>
-        <textarea class="field-input" id="pDescEn" rows="2" required></textarea>
+        <textarea class="field-input" id="pDescEn" rows="2" placeholder="Optionnel (FR si vide)"></textarea>
       </div>
       <div>
         <label class="field-label">Description courte (AR)</label>
-        <textarea class="field-input" id="pDescAr" rows="2" dir="rtl"></textarea>
+        <textarea class="field-input" id="pDescAr" rows="2" dir="rtl" placeholder="اختياري"></textarea>
       </div>
 
-      <details class="border border-kraft rounded-xl p-3">
-        <summary class="cursor-pointer text-sm font-semibold text-canopy">Description détaillée ("Lire plus")</summary>
+      <details class="border border-kraft rounded-xl p-3 bg-paperDeep/30">
+        <summary class="cursor-pointer text-sm font-semibold text-canopy select-none">▶ Description détaillée ("Lire plus" / Page produit)</summary>
         <div class="mt-3 space-y-3">
-          <div><label class="field-label">FR</label><textarea class="field-input" id="pLongFr" rows="3"></textarea></div>
-          <div><label class="field-label">EN</label><textarea class="field-input" id="pLongEn" rows="3"></textarea></div>
-          <div><label class="field-label">AR</label><textarea class="field-input" id="pLongAr" rows="3" dir="rtl"></textarea></div>
+          <div><label class="field-label">Détails (FR)</label><textarea class="field-input" id="pLongFr" rows="3" placeholder="Histoire de l'objet, dimensions, entretien..."></textarea></div>
+          <div><label class="field-label">Détails (EN)</label><textarea class="field-input" id="pLongEn" rows="3" placeholder="Optional details in English"></textarea></div>
+          <div><label class="field-label">Détails (AR)</label><textarea class="field-input" id="pLongAr" rows="3" dir="rtl" placeholder="تفاصيل إضافية بالعربية"></textarea></div>
         </div>
       </details>
 
-      <label class="flex items-center gap-2 text-sm text-canopy">
-        <input type="checkbox" id="pActive" checked>
-        Produit actif (visible sur le site)
+      <label class="flex items-center gap-2 text-sm text-canopy cursor-pointer">
+        <input type="checkbox" id="pActive" checked class="w-4 h-4 accent-canopy">
+        Produit actif (visible immédiatement sur le site)
       </label>
 
       <div class="flex justify-end gap-3 pt-2">
         <button type="button" id="productFormCancel" class="btn btn-outline">Annuler</button>
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <button type="submit" id="productFormSubmit" class="btn btn-primary">Enregistrer</button>
       </div>
     </form>
   </div>
@@ -215,7 +215,11 @@
   "use strict";
   var $ = function(s, r){ return (r || document).querySelector(s); };
   var $all = function(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
-  var API = "/api";
+  var API = (function(){
+    var p = window.location.pathname;
+    var m = p.match(/^(.*\/decorna)/i);
+    return (m ? m[1] : '') + '/api';
+  })();
   var state = { products: [], orders: [], currentUser: null };
 
   function apiFetch(url, opts){
@@ -330,8 +334,9 @@
             ? '<span class="text-xs font-semibold text-leafDeep bg-leaf/10 px-2 py-1 rounded-full">Actif</span>'
             : '<span class="text-xs font-semibold text-clay bg-clay/10 px-2 py-1 rounded-full">Masqué</span>') + '</td>' +
           '<td class="px-4 py-3 text-right whitespace-nowrap">' +
-            '<button class="btn btn-outline !py-1.5 !px-3 text-xs mr-2" data-edit="' + p.id + '">Modifier</button>' +
-            '<button class="btn btn-danger !py-1.5 !px-3 text-xs" data-delete="' + p.id + '">' + (p.isActive ? 'Masquer' : 'Réactiver') + '</button>' +
+            '<button class="btn btn-outline !py-1.5 !px-3 text-xs mr-1" data-edit="' + p.id + '">Modifier</button>' +
+            '<button class="btn btn-outline !py-1.5 !px-3 text-xs mr-1" data-toggle="' + p.id + '">' + (p.isActive ? 'Masquer' : 'Réactiver') + '</button>' +
+            '<button class="btn btn-danger !py-1.5 !px-3 text-xs" data-purge="' + p.id + '">Supprimer</button>' +
           '</td>' +
         '</tr>';
     }).join("");
@@ -340,8 +345,11 @@
     $all("[data-edit]").forEach(function(btn){
       btn.addEventListener("click", function(){ openProductModal(parseInt(btn.dataset.edit, 10)); });
     });
-    $all("[data-delete]").forEach(function(btn){
-      btn.addEventListener("click", function(){ toggleProduct(parseInt(btn.dataset.delete, 10)); });
+    $all("[data-toggle]").forEach(function(btn){
+      btn.addEventListener("click", function(){ toggleProduct(parseInt(btn.dataset.toggle, 10)); });
+    });
+    $all("[data-purge]").forEach(function(btn){
+      btn.addEventListener("click", function(){ purgeProduct(parseInt(btn.dataset.purge, 10)); });
     });
   }
 
@@ -355,7 +363,16 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ isActive: true })
         });
-    request.then(loadProducts);
+    request.then(loadProducts).catch(function(err){ alert(err.message); });
+  }
+
+  function purgeProduct(id){
+    var p = state.products.find(function(x){ return x.id === id; });
+    var name = p && p.name ? (p.name.fr || p.name.en || '#' + id) : '#' + id;
+    if(!confirm("Êtes-vous sûr de vouloir supprimer définitivement le produit « " + name + " » ?")) return;
+    apiFetch("/admin/products/" + id + "?purge=1", { method: "DELETE" })
+      .then(loadProducts)
+      .catch(function(err){ alert(err.message); });
   }
 
   var editingId = null;
@@ -367,16 +384,16 @@
     $("#pId").value = id || "";
     $("#pCatKey").value = p ? p.catKey : "vases";
     $("#pPrice").value = p ? p.price : "";
-    $("#pStock").value = p ? p.stock : 0;
-    $("#pNameFr").value = p ? p.name.fr : "";
-    $("#pNameEn").value = p ? p.name.en : "";
-    $("#pNameAr").value = p && p.name.ar ? p.name.ar : "";
-    $("#pMaterialFr").value = p ? p.material.fr : "";
-    $("#pMaterialEn").value = p ? p.material.en : "";
-    $("#pMaterialAr").value = p && p.material.ar ? p.material.ar : "";
-    $("#pDescFr").value = p ? p.desc.fr : "";
-    $("#pDescEn").value = p ? p.desc.en : "";
-    $("#pDescAr").value = p && p.desc.ar ? p.desc.ar : "";
+    $("#pStock").value = p ? p.stock : 10;
+    $("#pNameFr").value = p && p.name ? (p.name.fr || "") : "";
+    $("#pNameEn").value = p && p.name ? (p.name.en || "") : "";
+    $("#pNameAr").value = p && p.name ? (p.name.ar || "") : "";
+    $("#pMaterialFr").value = p && p.material ? (p.material.fr || "") : "";
+    $("#pMaterialEn").value = p && p.material ? (p.material.en || "") : "";
+    $("#pMaterialAr").value = p && p.material ? (p.material.ar || "") : "";
+    $("#pDescFr").value = p && p.desc ? (p.desc.fr || "") : "";
+    $("#pDescEn").value = p && p.desc ? (p.desc.en || "") : "";
+    $("#pDescAr").value = p && p.desc ? (p.desc.ar || "") : "";
     $("#pLongFr").value = p && p.long ? (p.long.fr || "") : "";
     $("#pLongEn").value = p && p.long ? (p.long.en || "") : "";
     $("#pLongAr").value = p && p.long ? (p.long.ar || "") : "";
@@ -391,36 +408,67 @@
   $("#productModalClose").addEventListener("click", closeProductModal);
   $("#productFormCancel").addEventListener("click", closeProductModal);
 
+  // Live photo preview when file selected
+  $("#pPhotoFile").addEventListener("change", function(e){
+    var file = e.target.files[0];
+    if(file){
+      var reader = new FileReader();
+      reader.onload = function(evt){ $("#pPhotoPreview").src = evt.target.result; };
+      reader.readAsDataURL(file);
+    }
+  });
+
   $("#productForm").addEventListener("submit", function(e){
     e.preventDefault();
+    var nameFr = $("#pNameFr").value.trim();
+    var nameEn = $("#pNameEn").value.trim() || nameFr;
+    var nameAr = $("#pNameAr").value.trim() || null;
+    var matFr = $("#pMaterialFr").value.trim();
+    var matEn = $("#pMaterialEn").value.trim() || matFr;
+    var matAr = $("#pMaterialAr").value.trim() || null;
+    var descFr = $("#pDescFr").value.trim();
+    var descEn = $("#pDescEn").value.trim() || descFr;
+    var descAr = $("#pDescAr").value.trim() || null;
+    var longFr = $("#pLongFr").value.trim() || null;
+    var longEn = $("#pLongEn").value.trim() || null;
+    var longAr = $("#pLongAr").value.trim() || null;
+
     var payload = {
       catKey: $("#pCatKey").value,
       icon: "vase",
-      price: parseInt($("#pPrice").value, 10),
-      stock: parseInt($("#pStock").value, 10),
+      price: parseInt($("#pPrice").value, 10) || 0,
+      stock: parseInt($("#pStock").value, 10) || 0,
       isActive: $("#pActive").checked,
-      name: { fr: $("#pNameFr").value, en: $("#pNameEn").value, ar: $("#pNameAr").value || null },
-      material: { fr: $("#pMaterialFr").value, en: $("#pMaterialEn").value, ar: $("#pMaterialAr").value || null },
-      desc: { fr: $("#pDescFr").value, en: $("#pDescEn").value, ar: $("#pDescAr").value || null },
-      long: { fr: $("#pLongFr").value || null, en: $("#pLongEn").value || null, ar: $("#pLongAr").value || null }
+      name: { fr: nameFr, en: nameEn, ar: nameAr },
+      material: { fr: matFr, en: matEn, ar: matAr },
+      desc: { fr: descFr, en: descEn, ar: descAr },
+      long: { fr: longFr, en: longEn, ar: longAr }
     };
 
     var id = $("#pId").value;
+    var submitBtn = $("#productFormSubmit");
+    submitBtn.disabled = true;
+
     var req = id
       ? apiFetch("/admin/products/" + id, { method: "PUT", headers: {"Content-Type":"application/json"}, body: JSON.stringify(payload) })
       : apiFetch("/admin/products", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(payload) });
 
     req.then(function(saved){
+      var targetId = (saved && saved.id) ? saved.id : id;
       var file = $("#pPhotoFile").files[0];
-      if(file){
+      if(file && targetId){
         var fd = new FormData();
         fd.append("photo", file);
-        return apiFetch("/admin/products/" + saved.id + "/photo", { method: "POST", body: fd });
+        return apiFetch("/admin/products/" + targetId + "/photo", { method: "POST", body: fd });
       }
     }).then(function(){
+      submitBtn.disabled = false;
       closeProductModal();
       loadProducts();
-    }).catch(function(err){ alert(err.message); });
+    }).catch(function(err){
+      submitBtn.disabled = false;
+      alert("Erreur: " + (err.message || "Impossible d'enregistrer le produit"));
+    });
   });
 
   /* ---------------- ORDERS ---------------- */

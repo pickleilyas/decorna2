@@ -23,10 +23,14 @@
   // Products with a real photo set `photo` to a path under assets/products/;
   // thumbHTML() uses that photo everywhere instead of the placeholder SVG icon.
   function thumbHTML(p){
+    if(!p) return '';
+    if(p.imagePath){
+      return '<img src="assets/' + p.imagePath + '" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">';
+    }
     if(p.photo){
       return '<img src="assets/products/' + p.photo + '" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">';
     }
-    return icons[p.icon];
+    return (icons && p.icon && icons[p.icon]) ? icons[p.icon] : (icons && icons.vase ? icons.vase : '');
   }
 
   /* ---------------- I18N ---------------- */
@@ -57,19 +61,27 @@
       aria_deco_send: 'Envoyer',
       aria_theme_toggle_dark: 'Activer le mode sombre',
       aria_theme_toggle_light: 'Activer le mode clair',
-      eyebrow_home: 'Lycée Al Fath · Khemisset · Maroc',
-      hero_title: 'Du carton et du plastique, devenus déco.',
-      hero_lede: 'Decorna est une petite entreprise scolaire qui collecte le carton et le plastique de Khemisset pour les transformer en objets de décoration faits à la main. Chaque pièce que vous achetez évite des déchets à la nature.',
-      see_products: 'Voir les produits',
-      our_story_btn: 'Notre histoire',
-      stat_waste: 'Déchets recyclés',
-      stat_designs: 'Modèles créés',
-      stat_students: 'Fait par des élèves',
-      recycled_label: 'Recyclé',
-      bestsellers_title: 'Nos best-sellers',
-      video_eyebrow: '⚡ La magie du recyclage',
-      video_title: "Regarde le déchet devenir déco, en direct",
-      video_desc: "Ici, rien ne se jette : du carton froissé et du plastique récupéré à Khemisset se transforment, sous les mains de nos élèves, en pièces uniques que tu ne trouveras nulle part ailleurs.",
+      eyebrow_home: 'Atelier du recyclage · Lycée Al Fath · Khemisset',
+      hero_title: 'Du plastique recyclé, devenu objet de collection.',
+      hero_lede: 'Decorna est une entreprise scolaire née au Lycée Al Fath à Khemisset. Nous collectons le plastique abandonné pour le transformer, à la main, en pièces de décoration durables et uniques.',
+      see_products: 'Découvrir la collection',
+      our_story_btn: 'Notre démarche',
+      stat_waste: 'Déchets revalorisés',
+      stat_designs: 'Modèles d\'atelier',
+      stat_students: 'Façonné par les élèves',
+      pillar1_title: 'Collecte locale & tri',
+      pillar1_desc: 'Plastiques propres récupérés auprès des commerçants de proximité à Khemisset.',
+      pillar2_title: 'Façonnage artisanal',
+      pillar2_desc: 'Découpe de précision, renfort structurel et finitions soignées réalisées à la main par les élèves du Lycée Al Fath.',
+      pillar3_title: 'Design circulaire',
+      pillar3_desc: 'Une seconde vie noble sous forme d\'objets singuliers et durables, pensés pour embellir les intérieurs avec sens.',
+      bestsellers_eyebrow: 'Sélection de l\'Atelier',
+      bestsellers_title: 'Nos créations phares',
+      home_quote: 'Transformer un déchet en objet d\'artisanat, c\'est redonner de la valeur à ce que l\'on ne regardait plus, tout en formant les créateurs de demain.',
+      home_quote_author: '— L\'Atelier Decorna · Élèves entrepreneurs du Lycée Al Fath, Khemisset',
+      video_eyebrow: 'Documentaire Atelier · Khemisset',
+      video_title: "De la matière brute à l'objet singulier",
+      video_desc: "À Khemisset, le plastique collecté trouve une seconde vie entre les mains des élèves du Lycée Al Fath. Chaque création témoigne d'un savoir-faire artisanal et d'un engagement environnemental concret.",
       showcase_eyebrow: 'En vidéo',
       showcase_title: "Tous nos produits en un coup d'œil",
       showcase_desc: 'Un aperçu rapide de toute la collection Decorna — vases, luminaires, cadres et plus, tous faits main.',
@@ -77,13 +89,13 @@
       eyebrow_shop: 'Boutique',
       our_products_title: 'Nos produits',
       search_placeholder: 'Rechercher un objet déco…',
-      empty_state: 'Aucun produit ne correspond à ta recherche. Essaie un autre mot-clé 🌿',
+      empty_state: 'Aucun produit ne correspond à votre recherche. Essayez un autre mot-clé.',
       eyebrow_story: 'Notre histoire',
       about_title: 'Une entreprise née dans un lycée',
-      about_p1: "Decorna est un projet entrepreneurial porté par des élèves du Lycée Al Fath, à Khemisset. Notre constat est simple : le carton et le plastique jetés chaque jour peuvent devenir de belles pièces pour la maison, au lieu de finir à la décharge.",
+      about_p1: "Decorna est un projet entrepreneurial porté par des élèves du Lycée Al Fath, à Khemisset. Notre constat est simple : le plastique jeté chaque jour peut devenir de belles pièces pour la maison, au lieu de finir à la décharge.",
       about_p2: "Nous récupérons les matériaux auprès de commerces et de familles du quartier, puis nous les nettoyons, les renforçons et les transformons en vases, lampes, cadres et objets de rangement, entièrement façonnés à la main par notre équipe.",
       step1_title: 'Collecte',
-      step1_desc: 'On récupère carton et plastique auprès des commerces et habitants de Khemisset.',
+      step1_desc: 'On récupère le plastique auprès des commerces et habitants de Khemisset.',
       step2_title: 'Tri',
       step2_desc: 'Chaque matériau est nettoyé et trié selon sa solidité et sa couleur.',
       step3_title: 'Transformation',
@@ -92,6 +104,11 @@
       step4_desc: 'Peinture, finitions et contrôle qualité avant la mise en vente.',
       credit_title: "Un projet d'élèves, pour la planète",
       credit_desc: "Decorna est conçu et géré par des lycéens du Lycée Al Fath de Khemisset, dans le cadre d'un projet entrepreneurial scolaire centré sur le recyclage local.",
+      contact_eyebrow: "Nous contacter",
+      contact_title: "Une question ? Un partenariat ?",
+      contact_desc: "L'équipe Decorna est à votre écoute pour toute demande d'information, commande sur mesure ou proposition de collaboration.",
+      contact_btn_email: "Nous écrire par email",
+      contact_btn_ig: "Instagram",
       eyebrow_team: "L'équipe",
       team_title: "L'équipe",
       team_intro: "Nous croyons que réunir des personnes dans le meilleur cadre possible, autour de valeurs communes fortes, donne naissance à de grandes choses. Decorna est une aventure humaine portée par une petite équipe soudée d'élèves du Lycée Al Fath.",
@@ -150,15 +167,15 @@
       card_error_name: 'Le nom sur la carte est requis.',
       card_error_expiry: "Date d'expiration invalide (MM/AA).",
       card_error_cvc: 'CVC invalide.',
-      toast_order_cod: 'Commande enregistrée — à régler à la livraison 🌿',
-      toast_order_card: 'Paiement accepté — commande confirmée 🌿',
-      toast_order_error: "Une erreur est survenue, réessaie dans un instant.",
-      cart_empty: 'Ton panier est vide pour le moment. Va découvrir nos créations 🌿',
-      deco_subtitle: 'Ton guide Decorna',
-      deco_input_placeholder: 'Écris ta question…',
+      toast_order_cod: 'Commande enregistrée — règlement à la livraison.',
+      toast_order_card: 'Paiement validé — commande confirmée.',
+      toast_order_error: "Une erreur est survenue, veuillez réessayer.",
+      cart_empty: 'Votre panier est vide pour le moment. Découvrez nos créations d\'atelier.',
+      deco_subtitle: 'Assistant d\'Atelier',
+      deco_input_placeholder: 'Posez votre question…',
       add_btn: 'Ajouter',
-      read_more_btn: 'Lire plus',
-      product_page_back: 'Retour aux produits',
+      read_more_btn: 'Détails',
+      product_page_back: 'Retour à la collection',
       product_page_collection: 'Collection',
       product_page_view_cart: 'Voir mon panier',
       stock_label: '{n} en stock',
@@ -167,15 +184,15 @@
       remove_btn: 'Retirer',
       aria_qty_dec: 'Réduire la quantité',
       aria_qty_inc: 'Augmenter la quantité',
-      toast_added_suffix: 'ajouté au panier 🌿',
-      toast_removed: 'Produit retiré du panier',
-      toast_cart_empty: 'Ton panier est vide',
-      toast_order_simulated: 'Commande simulée — merci pour ton soutien 🌿',
-      toast_login_success: 'Connecté avec succès 🌿',
+      toast_added_suffix: 'ajouté au panier',
+      toast_removed: 'Article retiré du panier',
+      toast_cart_empty: 'Votre panier est vide',
+      toast_order_simulated: 'Commande enregistrée — merci pour votre soutien.',
+      toast_login_success: 'Connexion réussie',
       toast_welcome: 'Bienvenue chez Decorna, {name} !',
       toast_logout: 'À bientôt !',
-      profile_greeting: 'Bonjour, {name} 👋',
-      deco_greeting: 'Salut, je suis DECO 🌿 Je t’aide à naviguer sur le site Decorna. Choisis une question ci-dessous, ou écris-moi directement !',
+      profile_greeting: 'Bonjour, {name}',
+      deco_greeting: 'Bonjour, je suis DECO, votre guide d\'atelier. Comment puis-je vous renseigner sur nos créations artisanales ?',
       q_see_products: 'Voir les produits',
       q_how_add_cart: 'Comment ajouter au panier ?',
       q_create_account: 'Créer un compte',
@@ -184,13 +201,13 @@
       r_see_products: 'Voilà notre boutique ! Tu peux utiliser la barre de recherche ou les filtres en haut pour trouver un objet précis.',
       r_how_add_cart: 'Sur chaque produit, clique sur le bouton "Ajouter". Tu peux ensuite ouvrir ton panier avec l’icône en haut à droite, et ajuster les quantités avec + et −.',
       r_create_account: 'Tu es sur la page Profil. Clique sur l’onglet "Créer un compte" et remplis le formulaire pour t’inscrire.',
-      r_who_are_you: 'Decorna est un projet d’élèves du Lycée Al Fath à Khemisset : on recycle carton et plastique pour en faire de la déco. Tu trouveras tous les détails sur cette page.',
+      r_who_are_you: 'Decorna est un projet d’élèves du Lycée Al Fath à Khemisset : on recycle le plastique pour en faire de la déco. Tu trouveras tous les détails sur cette page.',
       r_contact_us: 'Tu peux nous écrire sur Instagram @decorna_officiel et Facebook Decorna Decornaofficiel, ou par e-mail à decornacontact@gmail.com — nos coordonnées sont aussi en bas de chaque page.',
       reply_cart: 'Pour ajouter un produit, clique sur "Ajouter" depuis une fiche produit, puis ouvre ton panier via l’icône en haut à droite pour gérer les quantités ou valider la commande.',
       reply_products: 'Je t’ai emmené vers la page Produits. Utilise la barre de recherche ou les filtres pour trouver ce que tu cherches.',
       reply_account: 'Voici la page Profil : choisis "Se connecter" si tu as déjà un compte, ou "Créer un compte" pour t’inscrire.',
       reply_contact: 'Retrouve-nous sur Instagram @decorna_officiel et Facebook Decorna Decornaofficiel, ou par e-mail à decornacontact@gmail.com.',
-      reply_about: 'Decorna est un projet scolaire du Lycée Al Fath à Khemisset, qui transforme carton et plastique recyclés en objets déco.',
+      reply_about: 'Decorna est un projet scolaire du Lycée Al Fath à Khemisset, qui transforme le plastique recyclé en objets déco.',
       reply_greeting: 'Salut ! Comment puis-je t’aider à naviguer sur Decorna aujourd’hui ?',
       reply_thanks: 'Avec plaisir ! 🌿',
       reply_fallback: 'Je ne suis pas sûr de comprendre, mais voici quelques idées pour naviguer :'
@@ -216,19 +233,27 @@
       aria_deco_send: 'Send',
       aria_theme_toggle_dark: 'Turn on dark mode',
       aria_theme_toggle_light: 'Turn on light mode',
-      eyebrow_home: 'Al Fath High School · Khemisset · Morocco',
-      hero_title: 'Cardboard and plastic, turned into décor.',
-      hero_lede: 'Decorna is a small school business that collects cardboard and plastic from Khemisset and turns it into handmade decorative objects. Every piece you buy keeps a little more waste out of nature.',
-      see_products: 'See our products',
-      our_story_btn: 'Our story',
-      stat_waste: 'Waste recycled',
-      stat_designs: 'Designs created',
-      stat_students: 'Made by students',
-      recycled_label: 'Recycled',
-      bestsellers_title: 'Our best-sellers',
-      video_eyebrow: '⚡ The magic of recycling',
-      video_title: 'Watch waste turn into décor, live',
-      video_desc: 'Nothing goes to waste here: crumpled cardboard and reclaimed plastic from Khemisset become one-of-a-kind pieces in the hands of our students — pieces you won\u2019t find anywhere else.',
+      eyebrow_home: 'Recycling Atelier · Al Fath High School · Khemisset',
+      hero_title: 'Reclaimed cardboard and plastic, turned into collector pieces.',
+      hero_lede: 'Decorna is a student-led social enterprise born at Al Fath High School in Khemisset. We collect abandoned cardboard and plastics to transform them by hand into enduring, singular home décor.',
+      see_products: 'Discover the collection',
+      our_story_btn: 'Our craftsmanship',
+      stat_waste: 'Waste upcycled',
+      stat_designs: 'Original models',
+      stat_students: 'Crafted by students',
+      pillar1_title: 'Local collection & sorting',
+      pillar1_desc: 'Corrugated packaging boxes and clean polymers sourced from local merchants across Khemisset.',
+      pillar2_title: 'Handcrafted precision',
+      pillar2_desc: 'Precision cutting, structural reinforcement, and hand-finishing done entirely by high school students.',
+      pillar3_title: 'Circular design',
+      pillar3_desc: 'Meaningful, durable decorative pieces made to elevate interiors while reducing environmental impact.',
+      bestsellers_eyebrow: 'Atelier Selection',
+      bestsellers_title: 'Featured creations',
+      home_quote: 'Turning discarded waste into artisanal decor means giving value back to what was once overlooked, while empowering the makers of tomorrow.',
+      home_quote_author: '— The Decorna Atelier · Student entrepreneurs of Al Fath High School, Khemisset',
+      video_eyebrow: 'Atelier Documentary · Khemisset',
+      video_title: 'From raw waste to singular design',
+      video_desc: 'In Khemisset, reclaimed cardboard and plastic find a second life in the hands of Al Fath High School students. Every piece reflects genuine craftsmanship and tangible environmental impact.',
       showcase_eyebrow: 'On video',
       showcase_title: 'All our products at a glance',
       showcase_desc: 'A quick look at the full Decorna collection — vases, lighting, frames and more, all handmade.',
@@ -236,7 +261,7 @@
       eyebrow_shop: 'Shop',
       our_products_title: 'Our products',
       search_placeholder: 'Search for a décor item…',
-      empty_state: 'No product matches your search. Try a different keyword 🌿',
+      empty_state: 'No product matches your search. Try a different keyword.',
       eyebrow_story: 'Our story',
       about_title: 'A business born in a high school',
       about_p1: "Decorna is an entrepreneurial project led by students at Al Fath High School in Khemisset. Our starting point was simple: the cardboard and plastic thrown away every day can become beautiful pieces for the home instead of ending up in a landfill.",
@@ -251,6 +276,11 @@
       step4_desc: 'Painting, finishing touches, and quality control before going on sale.',
       credit_title: 'A student project, for the planet',
       credit_desc: 'Decorna is designed and run by high school students at Al Fath High School in Khemisset, as part of a school entrepreneurship project centered on local recycling.',
+      contact_eyebrow: "Contact Us",
+      contact_title: "A question? A partnership?",
+      contact_desc: "The Decorna team is here for any information requests, custom orders, or collaboration proposals.",
+      contact_btn_email: "Email us",
+      contact_btn_ig: "Instagram",
       eyebrow_team: 'The team',
       team_title: 'The Team',
       team_intro: 'We believe that bringing people together in the best possible environment, around strong shared values, gives rise to great things. Decorna is a human adventure carried by a small, close-knit team of Al Fath High School students.',
@@ -309,15 +339,15 @@
       card_error_name: 'Name on card is required.',
       card_error_expiry: 'Invalid expiry date (MM/YY).',
       card_error_cvc: 'Invalid CVC.',
-      toast_order_cod: 'Order placed — pay on delivery 🌿',
-      toast_order_card: 'Payment accepted — order confirmed 🌿',
+      toast_order_cod: 'Order placed — payment on delivery.',
+      toast_order_card: 'Payment accepted — order confirmed.',
       toast_order_error: 'Something went wrong, please try again.',
-      cart_empty: 'Your cart is empty for now. Go discover our creations 🌿',
-      deco_subtitle: 'Your Decorna guide',
-      deco_input_placeholder: 'Type your question…',
+      cart_empty: 'Your cart is empty for now. Go discover our atelier creations.',
+      deco_subtitle: 'Atelier Assistant',
+      deco_input_placeholder: 'Ask your question…',
       add_btn: 'Add',
-      read_more_btn: 'Read more',
-      product_page_back: 'Back to products',
+      read_more_btn: 'Details',
+      product_page_back: 'Back to collection',
       product_page_collection: 'Collection',
       product_page_view_cart: 'View cart',
       stock_label: '{n} in stock',
@@ -326,15 +356,15 @@
       remove_btn: 'Remove',
       aria_qty_dec: 'Decrease quantity',
       aria_qty_inc: 'Increase quantity',
-      toast_added_suffix: 'added to cart 🌿',
-      toast_removed: 'Product removed from cart',
+      toast_added_suffix: 'added to cart',
+      toast_removed: 'Item removed from cart',
       toast_cart_empty: 'Your cart is empty',
-      toast_order_simulated: 'Order simulated — thanks for your support 🌿',
-      toast_login_success: 'Logged in successfully 🌿',
+      toast_order_simulated: 'Order recorded — thanks for your support.',
+      toast_login_success: 'Logged in successfully',
       toast_welcome: 'Welcome to Decorna, {name}!',
       toast_logout: 'See you soon!',
-      profile_greeting: 'Hello, {name} 👋',
-      deco_greeting: "Hi, I'm DECO 🌿 I'm here to help you find your way around the Decorna site. Pick a question below, or write to me directly!",
+      profile_greeting: 'Hello, {name}',
+      deco_greeting: "Hello, I'm DECO, your atelier guide. How can I help you discover our handcrafted creations today?",
       q_see_products: 'See our products',
       q_how_add_cart: 'How do I add to cart?',
       q_create_account: 'Create an account',
@@ -351,7 +381,7 @@
       reply_contact: 'Find us on Instagram @decorna_officiel and Facebook Decorna Decornaofficiel, or by email at decornacontact@gmail.com.',
       reply_about: 'Decorna is a school project from Al Fath High School in Khemisset, turning recycled cardboard and plastic into décor objects.',
       reply_greeting: 'Hi! How can I help you find your way around Decorna today?',
-      reply_thanks: 'My pleasure! 🌿',
+      reply_thanks: 'My pleasure!',
       reply_fallback: "I'm not sure I understand, but here are a few ideas to get around:"
     },
     ar: {
@@ -375,19 +405,27 @@
       aria_deco_send: 'إرسال',
       aria_theme_toggle_dark: 'تفعيل الوضع الداكن',
       aria_theme_toggle_light: 'تفعيل الوضع الفاتح',
-      eyebrow_home: 'ثانوية الفتح · الخميسات · المغرب',
-      hero_title: 'الكرتون والبلاستيك، أصبحا ديكورًا.',
-      hero_lede: 'ديكورنا هي مقاولة مدرسية صغيرة تجمع الكرتون والبلاستيك من الخميسات وتحوّلهما إلى قطع ديكور مصنوعة يدويًا. كل قطعة تشتريها توفّر جزءًا من النفايات على الطبيعة.',
-      see_products: 'شاهد منتجاتنا',
-      our_story_btn: 'قصتنا',
-      stat_waste: 'نفايات مُعاد تدويرها',
-      stat_designs: 'تصاميم أُنجزت',
-      stat_students: 'من صنع التلاميذ',
-      recycled_label: 'مُعاد تدويره',
-      bestsellers_title: 'الأكثر مبيعًا',
-      video_eyebrow: '⚡ سحر إعادة التدوير',
-      video_title: 'شاهد النفايات تتحول إلى ديكور، مباشرة',
-      video_desc: 'هنا لا شيء يُهدر: الكرتون والبلاستيك المجموعان من الخميسات يتحولان بين أيدي تلاميذنا إلى قطع فريدة لن تجدها في أي مكان آخر.',
+      eyebrow_home: 'ورشة إعادة التدوير · ثانوية الفتح · الخميسات',
+      hero_title: 'من كرتون وبلاستيك مسترجع، إلى تحف ديكور راقية.',
+      hero_lede: 'ديكورنا مقاولة مدرسية وتضامنية تأسست بثانوية الفتح بالخميسات. نجمع مخلفات الكرتون والبلاستيك لنعيد تشكيلها يدويًا إلى قطع ديكور فريدة ومستدامة.',
+      see_products: 'اكتشف المجموعة',
+      our_story_btn: 'نهجنا الحرفي',
+      stat_waste: 'نفايات مسترجعة',
+      stat_designs: 'نماذج الورشة',
+      stat_students: 'صُنع بأيدي التلاميذ',
+      pillar1_title: 'جمع محلي وفرز دقيق',
+      pillar1_desc: 'كرتون التغليف وبلاستيك نظيف يُجمع أسبوعيًا من تجار وأسر مدينة الخميسات.',
+      pillar2_title: 'صناعة يدوية متقنة',
+      pillar2_desc: 'قص دقيق وتقوية هيكلية وتشطيبات متقنة من إنجاز تلاميذ ثانوية الفتح.',
+      pillar3_title: 'تصميم دائري مستدام',
+      pillar3_desc: 'إحياء جديد للمواد على هيئة مزهريات وإضاءات تدوم طويلاً وتضفي لمسة جمالية مسؤولة.',
+      bestsellers_eyebrow: 'مختارات الورشة',
+      bestsellers_title: 'أبرز ابتكاراتنا',
+      home_quote: 'تحويل مادة مهملة إلى قطعة حرفية هو إعادة القيمة لما لم نعد نلتفت إليه، مع بناء جيل واعد من صُنّاع الغد.',
+      home_quote_author: '— ورشة ديكورنا · تلاميذ مقاولون بثانوية الفتح، الخميسات',
+      video_eyebrow: 'وثائقي الورشة · الخميسات',
+      video_title: 'من المادة المسترجعة إلى قطعة ديكور فريدة',
+      video_desc: 'في الخميسات، يجد الكرتون والبلاستيك المجموعان حياة ثانية بين أيدي تلاميذ ثانوية الفتح. كل ابتكار يجسد مهارة يدوية حقيقية والتزامًا بيئيًا ملموسًا.',
       showcase_eyebrow: 'بالفيديو',
       showcase_title: 'كل منتجاتنا في لمحة واحدة',
       showcase_desc: 'نظرة سريعة على مجموعة ديكورنا كاملة — مزهريات وإضاءة وإطارات وأكثر، كلها مصنوعة يدويًا.',
@@ -395,7 +433,7 @@
       eyebrow_shop: 'المتجر',
       our_products_title: 'منتجاتنا',
       search_placeholder: 'ابحث عن قطعة ديكور…',
-      empty_state: 'لا يوجد منتج يطابق بحثك. جرّب كلمة أخرى 🌿',
+      empty_state: 'لا يوجد منتج يطابق بحثك. جرّب كلمة بحث أخرى.',
       eyebrow_story: 'قصتنا',
       about_title: 'مقاولة وُلدت داخل ثانوية',
       about_p1: 'ديكورنا هو مشروع مقاولاتي يقوده تلاميذ ثانوية الفتح بالخميسات. فكرتنا بسيطة: الكرتون والبلاستيك اللذان يُرميان يوميًا يمكن أن يتحوّلا إلى قطع جميلة للمنزل بدل أن ينتهيا في المطرح.',
@@ -410,6 +448,11 @@
       step4_desc: 'الطلاء واللمسات الأخيرة ومراقبة الجودة قبل البيع.',
       credit_title: 'مشروع تلاميذ، من أجل الكوكب',
       credit_desc: 'ديكورنا مشروع يديره تلاميذ ثانوية الفتح بالخميسات، في إطار مشروع مقاولاتي مدرسي يركز على إعادة التدوير المحلي.',
+      contact_eyebrow: "تواصل معنا",
+      contact_title: "سؤال؟ أو شراكة؟",
+      contact_desc: "فريق ديكورنا تحت تصرفك لأي طلب معلومات، طلبات مخصصة أو اقتراح تعاون.",
+      contact_btn_email: "راسلنا عبر البريد",
+      contact_btn_ig: "إنستغرام",
       eyebrow_team: 'الفريق',
       team_title: 'الفريق',
       team_intro: 'نؤمن بأن جمع الأشخاص في أفضل إطار ممكن، حول قيم مشتركة قوية، يولّد أشياء عظيمة. ديكورنا مغامرة إنسانية يحملها فريق صغير ومتماسك من تلاميذ ثانوية الفتح.',
@@ -468,15 +511,15 @@
       card_error_name: 'الاسم على البطاقة مطلوب.',
       card_error_expiry: 'تاريخ انتهاء غير صالح (شهر/سنة).',
       card_error_cvc: 'رمز التحقق CVC غير صالح.',
-      toast_order_cod: 'تم تسجيل الطلب — الدفع عند الاستلام 🌿',
-      toast_order_card: 'تم قبول الدفع — تم تأكيد الطلب 🌿',
-      toast_order_error: 'حدث خطأ ما، حاول مرة أخرى.',
-      cart_empty: 'سلتك فارغة حاليًا. اكتشف إبداعاتنا 🌿',
-      deco_subtitle: 'مرشدك في ديكورنا',
-      deco_input_placeholder: 'اكتب سؤالك…',
+      toast_order_cod: 'تم تسجيل الطلب — الدفع عند الاستلام.',
+      toast_order_card: 'تم قبول الدفع — تم تأكيد الطلب بنجاح.',
+      toast_order_error: 'حدث خطأ ما، يرجى المحاولة مرة أخرى.',
+      cart_empty: 'سلتك فارغة حاليًا. تفضل باكتشاف إبداعات الورشة.',
+      deco_subtitle: 'مرشد الورشة',
+      deco_input_placeholder: 'اطرح سؤالك…',
       add_btn: 'أضف',
-      read_more_btn: 'اقرأ المزيد',
-      product_page_back: 'العودة إلى المنتجات',
+      read_more_btn: 'تفاصيل',
+      product_page_back: 'العودة إلى المجموعة',
       product_page_collection: 'المجموعة',
       product_page_view_cart: 'عرض السلة',
       stock_label: 'متوفر: {n}',
@@ -485,15 +528,15 @@
       remove_btn: 'إزالة',
       aria_qty_dec: 'تقليل الكمية',
       aria_qty_inc: 'زيادة الكمية',
-      toast_added_suffix: 'أُضيف إلى السلة 🌿',
+      toast_added_suffix: 'أُضيف إلى السلة',
       toast_removed: 'تمت إزالة المنتج من السلة',
       toast_cart_empty: 'سلتك فارغة',
-      toast_order_simulated: 'تمت محاكاة الطلب — شكرًا لدعمك 🌿',
-      toast_login_success: 'تم تسجيل الدخول بنجاح 🌿',
+      toast_order_simulated: 'تم تسجيل الطلب — شكرًا لدعمكم.',
+      toast_login_success: 'تم تسجيل الدخول بنجاح',
       toast_welcome: 'مرحبًا بك في ديكورنا، {name}!',
       toast_logout: 'إلى اللقاء قريبًا!',
-      profile_greeting: 'مرحبًا، {name} 👋',
-      deco_greeting: 'مرحبًا، أنا ديكو 🌿 أساعدك على التنقل في موقع ديكورنا. اختر سؤالًا أدناه أو اكتب لي مباشرة!',
+      profile_greeting: 'مرحبًا، {name}',
+      deco_greeting: 'مرحبًا، أنا ديكو مرشدك في ورشة ديكورنا. كيف يمكنني مساعدتك في استكشاف إبداعاتنا الحرفية اليوم؟',
       q_see_products: 'شاهد المنتجات',
       q_how_add_cart: 'كيف أضيف إلى السلة؟',
       q_create_account: 'إنشاء حساب',
@@ -510,7 +553,7 @@
       reply_contact: 'تجدنا على إنستغرام @decorna_officiel وفيسبوك Decorna Decornaofficiel، أو عبر البريد الإلكتروني decornacontact@gmail.com.',
       reply_about: 'ديكورنا مشروع مدرسي من ثانوية الفتح بالخميسات، يحوّل الكرتون والبلاستيك المعاد تدويرهما إلى قطع ديكور.',
       reply_greeting: 'مرحبًا! كيف يمكنني مساعدتك في التنقل داخل ديكورنا اليوم؟',
-      reply_thanks: 'بكل سرور! 🌿',
+      reply_thanks: 'بكل سرور!',
       reply_fallback: 'لست متأكدًا من فهم سؤالك، لكن إليك بعض الأفكار للتنقل:'
     }
   };
@@ -524,7 +567,9 @@
     return s;
   }
   function pl(obj){
-    return (obj && obj[lang] !== undefined) ? obj[lang] : (obj ? obj.fr : '');
+    if(!obj) return '';
+    if(typeof obj === 'string') return obj;
+    return obj[lang] || obj.fr || obj.en || '';
   }
 
   /* ---------------- DATA ---------------- */
@@ -539,135 +584,47 @@
     keychains:{ fr:'Porte-clés',         en:'Keychains' }
   };
 
-  var products = [
-    {id:1, catKey:'vases',    material:{fr:'Plastique',en:'Plastic'},   price:150, stock:14, icon:'vase', photo:'vase-mawja.jpg',
-      name:{fr:'Vase "Mawja"', en:'"Mawja" Vase'},
-      desc:{fr:'Vase ondulé en plastique recyclé fondu et moulé à la main.', en:'Wavy vase made from melted, hand-molded recycled plastic.'}},
-    {id:2, catKey:'lighting', material:{fr:'Carton',en:'Cardboard'},    price:220, stock:8, icon:'lamp', photo:'lampe-lumina.jpg',
-      name:{fr:'Lampe "Lumina"', en:'"Lumina" Lamp'},
-      desc:{fr:'Lampe de table en carton tressé, lumière douce et chaleureuse.', en:'Table lamp made of woven cardboard, with a soft, warm glow.'}},
-    {id:3, catKey:'frames',   material:{fr:'Carton',en:'Cardboard'},    price:90,  stock:20, icon:'frame', photo:'cadre-souvenir.jpg',
-      name:{fr:'Cadre "Souvenir"', en:'"Souvenir" Frame'},
-      desc:{fr:'Cadre photo en carton renforcé, finition peinte mate.', en:'Photo frame in reinforced cardboard with a matte painted finish.'}},
-    {id:4, catKey:'storage',  material:{fr:'Plastique',en:'Plastic'},   price:130, stock:11, icon:'basket', photo:'panier-nida.jpg',
-      name:{fr:'Panier "Nida"', en:'"Nida" Basket'},
-      desc:{fr:'Panier de rangement tressé à partir de sacs plastiques recyclés.', en:'Storage basket woven from recycled plastic bags.'}},
-    {id:5, catKey:'clocks',   material:{fr:'Mixte',en:'Mixed'},         price:180, stock:6, icon:'clock', photo:'horloge-cercle-vert.jpg',
-      name:{fr:'Horloge "Cercle Vert"', en:'"Green Circle" Clock'},
-      desc:{fr:'Horloge murale en carton et plastique, cadran peint à la main.', en:'Wall clock made of cardboard and plastic, with a hand-painted dial.'}},
-    {id:6, catKey:'vases',    material:{fr:'Plastique',en:'Plastic'},   price:75,  stock:25, icon:'pot', photo:'pot-racine.jpg',
-      name:{fr:'Pot "Racine"', en:'"Root" Pot'},
-      desc:{fr:'Pot à plantes compact, idéal pour succulentes et herbes.', en:'Compact plant pot, perfect for succulents and herbs.'}},
-    {id:7, catKey:'storage',  material:{fr:'Carton',en:'Cardboard'},    price:110, stock:9, icon:'box',
-      name:{fr:'Boîte "Trésor"', en:'"Treasure" Box'},
-      desc:{fr:'Boîte à bijoux en carton matelassé avec doublure intérieure.', en:'Jewelry box in quilted cardboard with an inner lining.'}},
-    {id:8, catKey:'frames',   material:{fr:'Carton',en:'Cardboard'},    price:240, stock:5, icon:'mirror', photo:'miroir-reflet.jpg',
-      name:{fr:'Miroir "Reflet"', en:'"Reflection" Mirror'},
-      desc:{fr:'Miroir ovale encadré de carton sculpté et verni.', en:'Oval mirror framed with carved, varnished cardboard.'}},
-    {id:9, catKey:'walldeco', material:{fr:'Plastique',en:'Plastic'},   price:160, stock:17, icon:'garland',
-      name:{fr:'Suspension "Feuillage"', en:'"Foliage" Garland'},
-      desc:{fr:'Guirlande murale en perles de plastique recyclé.', en:'Wall garland made of recycled plastic beads.'}},
-    {id:10, catKey:'vases',   material:{fr:'Plastique',en:'Plastic'},   price:210, stock:3, icon:'auroreCorail', photo:'vase-aurore-corail.jpg',
-      name:{fr:'Vase "Aurore Corail"', en:'"Coral Dawn" Vase'},
-      desc:{fr:'Vase évasé en dégradé terracotta vers corail poudré, finition brillante façon céramique.', en:'Flared vase in a terracotta-to-powder-coral gradient, with a glossy ceramic-like finish.'}},
-    {id:11, catKey:'vases',   material:{fr:'Plastique & fibres',en:'Plastic & fiber'}, price:195, stock:12, icon:'vaseNomade', photo:'vase-frange-cuir.jpg',
-      name:{fr:'Vase "Nomade"', en:'"Nomade" Vase'},
-      desc:{fr:'Vase cylindrique beige orné de franges tressées noires, inspiré des tentures berbères.', en:'Beige cylindrical vase adorned with braided black fringes, inspired by Berber textiles.'}},
-    {id:12, catKey:'storage', material:{fr:'Carton recyclé & rose stabilisée',en:'Recycled cardboard & preserved rose'}, price:180, stock:10, icon:'coffretRose', photo:'coffret-rose.jpg',
-      name:{fr:'Coffret "Rose Éternelle"', en:'"Eternal Rose" Gift Box'},
-      desc:{fr:'Écrin rose pâle en carton recyclé pressé, avec une rose stabilisée sous dôme et un tiroir doré.', en:'Pale pink gift box in pressed recycled cardboard, with a preserved rose under a dome and a gilded drawer.'}},
-    {id:13, catKey:'lighting', material:{fr:'Métal recyclé',en:'Recycled metal'}, price:260, stock:7, icon:'lampeFeuillesDorees', photo:'lampe-feuilles-dorees.jpg',
-      name:{fr:'Suspension "Feuilles Dorées"', en:'"Golden Leaves" Pendant Lamp'},
-      desc:{fr:'Suspension sphérique entièrement recouverte de feuilles en métal recyclé doré à la main.', en:'Spherical pendant lamp entirely covered in hand-gilded recycled-metal leaves.'}},
-    {id:14, catKey:'keychains', material:{fr:'Plastique recyclé',en:'Recycled plastic'}, price:35, stock:40, icon:'keychainTrophy',
-      name:{fr:'Porte-clés "Trophée"', en:'"Trophy" Keychain'},
-      desc:{fr:'Mini trophée doré moulé à partir de chutes de plastique recyclé, avec anneau porte-clés.', en:'Mini gold-tone trophy molded from recycled plastic offcuts, with keyring.'}},
-    {id:15, catKey:'keychains', material:{fr:'Plastique recyclé',en:'Recycled plastic'}, price:30, stock:35, icon:'keychainGiraffe',
-      name:{fr:'Porte-clés "Girafe"', en:'"Giraffe" Keychain'},
-      desc:{fr:'Petite girafe colorée moulée à la main à partir de plastique recyclé, idéale à offrir.', en:'Small colorful giraffe hand-molded from recycled plastic, perfect as a little gift.'}},
-    {id:16, catKey:'keychains', material:{fr:'Plastique recyclé',en:'Recycled plastic'}, price:28, stock:50, icon:'keychainVase',
-      name:{fr:'Porte-clés "Mini Vase"', en:'"Mini Vase" Keychain'},
-      desc:{fr:'Version miniature de nos vases signature, en plastique recyclé, pour emporter Decorna partout.', en:'Miniature version of our signature vases, in recycled plastic, to take Decorna everywhere.'}},
-    {id:17, catKey:'lighting', material:{fr:'Bois & tissu recyclé',en:'Wood & recycled fabric'}, price:340, stock:4, icon:'floorLamp',
-      name:{fr:'Lampadaire "Amazigh"', en:'"Amazigh" Floor Lamp'},
-      desc:{fr:'Lampadaire sur pied habillé de tissu à motifs berbères tissé à partir de fibres recyclées.', en:'Floor lamp dressed in Berber-pattern fabric woven from recycled fibers.'}},
-    {id:18, catKey:'clocks', material:{fr:'Corde recyclée & bois',en:'Recycled rope & wood'}, price:210, stock:9, icon:'clockWoven',
-      name:{fr:'Horloge "Tressée"', en:'"Braided" Clock'},
-      desc:{fr:'Horloge murale au cadran tressé à partir de corde recyclée, orné de perles de bois et pierres récupérées.', en:'Wall clock with a dial braided from recycled rope, adorned with wooden beads and reclaimed stones.'}},
-    {id:19, catKey:'walldeco', material:{fr:'Bois recyclé & verre récupéré',en:'Recycled wood & reclaimed glass'}, price:95, stock:15, icon:'wallPlanter',
-      name:{fr:'Support Mural "Bouture"', en:'"Cutting" Wall Planter'},
-      desc:{fr:'Support mural triangulaire en bois recyclé, avec petit tube en verre récupéré pour faire raciner vos boutures.', en:'Triangular wall support in recycled wood, with a small reclaimed-glass tube for rooting plant cuttings.'}}
-  ];
+  var API = (function(){
+    var p = window.location.pathname;
+    var m = p.match(/^(.*\/decorna)/i);
+    return (m ? m[1] : '') + '/api';
+  })();
 
-  var categoryKeys = ['all'].concat(Array.from(new Set(products.map(function(p){return p.catKey;}))));
+  var products = [];
+  var categoryKeys = ['all', 'vases', 'lighting', 'frames', 'storage', 'clocks', 'walldeco', 'keychains'];
 
-  var longExtra = {
-    vase:   {fr:"Chaque vase est unique : les motifs et nuances varient légèrement selon le plastique récupéré, ce qui rend votre pièce irremplaçable. Résistant à l'eau, il convient aussi bien aux fleurs séchées qu'aux compositions fraîches.",
-             en:"Each vase is unique: patterns and shades vary slightly depending on the recovered plastic, making your piece one of a kind. Water-resistant, it suits both dried flowers and fresh arrangements.",
-             ar:"كل مزهرية فريدة من نوعها: تختلف الأنماط والألوان قليلًا حسب البلاستيك المسترجع، مما يجعل قطعتك لا مثيل لها. مقاومة للماء، تناسب الزهور المجففة والباقات الطازجة على حد سواء."},
-    lamp:   {fr:"Le tressage du carton diffuse une lumière chaude et enveloppante, idéale pour une ambiance cosy le soir. Livrée avec une douille E14 compatible avec la plupart des ampoules basse consommation.",
-             en:"The woven cardboard diffuses a warm, enveloping light, perfect for a cozy evening atmosphere. Comes with an E14 socket compatible with most low-energy bulbs.",
-             ar:"يبعث الكرتون المضفّر ضوءًا دافئًا وحميميًا، مثاليًا لأجواء مسائية مريحة. مزودة بمقبس E14 متوافق مع معظم المصابيح الموفرة للطاقة."},
-    frame:  {fr:"Le cadre est renforcé par plusieurs couches de carton collées puis poncées, pour une rigidité proche du bois tout en restant léger. Finition mate peinte à la main, sans vernis chimique.",
-             en:"The frame is reinforced with several layers of glued, sanded cardboard, giving a rigidity close to wood while staying lightweight. Hand-painted matte finish, with no chemical varnish.",
-             ar:"الإطار مقوّى بعدة طبقات من الكرتون الملصق والمصنفر، مما يمنحه صلابة قريبة من الخشب مع بقائه خفيف الوزن. تشطيب غير لامع مطلي يدويًا، بدون ورنيش كيميائي."},
-    basket: {fr:"Tressé fil à fil à partir de sacs plastiques nettoyés et découpés en lanières, ce panier est robuste et lavable à l'eau savonneuse. Parfait pour le rangement du linge, des jouets ou des accessoires.",
-             en:"Woven strand by strand from cleaned plastic bags cut into strips, this basket is sturdy and washable with soapy water. Perfect for storing laundry, toys, or accessories.",
-             ar:"مضفّرة خيطًا بخيط من أكياس بلاستيكية منظفة ومقطعة إلى شرائط، هذه السلة متينة وقابلة للغسل بالماء والصابون. مثالية لتخزين الملابس أو الألعاب أو الإكسسوارات."},
-    clock:  {fr:"Le mécanisme à quartz silencieux (pile AA non incluse) est fixé sur un cadran en carton et plastique peint à la main, chaque cadran ayant ses propres nuances de couleur.",
-             en:"The silent quartz movement (AA battery not included) is mounted on a hand-painted cardboard-and-plastic dial, each dial having its own shade variations.",
-             ar:"الآلية الصامتة تعمل بالكوارتز (بطارية AA غير مرفقة) ومثبتة على قرص من الكرتون والبلاستيك مطلي يدويًا، ولكل قرص درجات لونية خاصة به."},
-    pot:    {fr:"Compact et léger, ce pot est percé d'un trou de drainage discret et livré avec une petite soucoupe assortie pour protéger vos meubles.",
-             en:"Compact and lightweight, this pot has a discreet drainage hole and comes with a matching small saucer to protect your furniture.",
-             ar:"خفيفة ومدمجة، هذه الأصيصة مثقوبة بفتحة تصريف خفية ومزودة بصحن صغير مطابق لحماية أثاثك."},
-    box:    {fr:"L'intérieur est doublé d'un tissu doux recyclé pour protéger vos bijoux ou petits objets précieux. Le couvercle capitonné se referme avec un léger clic.",
-             en:"The inside is lined with soft recycled fabric to protect your jewelry or small precious items. The quilted lid closes with a gentle click.",
-             ar:"الداخل مبطن بقماش ناعم معاد تدويره لحماية مجوهراتك أو أغراضك الثمينة الصغيرة. يُغلق الغطاء المبطن بنقرة خفيفة."},
-    mirror: {fr:"Le cadre sculpté à la main est verni pour résister à l'humidité de la salle de bain comme à la poussière du salon. Miroir standard 3 mm, fixation murale incluse.",
-             en:"The hand-carved frame is varnished to withstand bathroom humidity as well as living-room dust. Standard 3 mm mirror, wall mount included.",
-             ar:"الإطار المنحوت يدويًا مطلي بورنيش لمقاومة رطوبة الحمام وغبار الصالون على حد سواء. مرآة قياسية 3 ملم، مع تثبيت جداري."},
-    garland:{fr:"Chaque perle est façonnée à partir de bouchons et fragments plastiques fondus, puis enfilée à la main sur un fil solide. Idéale pour habiller un mur, une fenêtre ou une tête de lit.",
-             en:"Each bead is shaped from melted caps and plastic fragments, then hand-strung on a sturdy thread. Perfect for dressing up a wall, window, or headboard.",
-             ar:"كل خرزة مشكّلة من أغطية وشظايا بلاستيكية مذابة، ثم منظومة يدويًا على خيط متين. مثالية لتزيين جدار أو نافذة أو رأس السرير."},
-    auroreCorail:{fr:"Ce vase phare de la collection est moulé en plastique recyclé, puis passé sous une double couche de laque qui donne ce dégradé terracotta-corail et cet éclat façon céramique. Sa base évasée assure une bonne stabilité, même avec un bouquet généreux. Une pièce sculpturale qui devient le point focal de n'importe quelle pièce.",
-                en:"This flagship vase is molded from recycled plastic, then finished with a double lacquer coat that creates its terracotta-to-coral gradient and ceramic-like sheen. Its flared base keeps it stable even with a generous bouquet. A sculptural piece that becomes the focal point of any room.",
-                ar:"هذه المزهرية الرائدة في المجموعة مصبوبة من بلاستيك معاد تدويره، ثم مطلية بطبقتين من الورنيش تمنحانها هذا التدرج من التيراكوتا إلى المرجاني ولمعانًا يشبه السيراميك. قاعدتها المتسعة تمنحها ثباتًا حتى مع باقة أزهار كبيرة. قطعة نحتية تصبح نقطة التركيز في أي غرفة."},
-    vaseNomade:{fr:"Le corps du vase est moulé en plastique recyclé teinté dans la masse, puis habillé de franges tressées à la main à partir de fibres synthétiques récupérées, façon tenture berbère. Chaque frange est nouée individuellement, ce qui rend chaque vase légèrement différent de son voisin.",
-                en:"The vase body is molded from mass-dyed recycled plastic, then dressed with hand-braided fringes made from recovered synthetic fiber, in the style of a Berber wall hanging. Each fringe is individually knotted, making every vase slightly different from the next.",
-                ar:"جسم المزهرية مصبوب من بلاستيك معاد تدويره مصبوغ في الكتلة، ثم مزين بشرابات مضفّرة يدويًا من ألياف اصطناعية مسترجعة، على طراز المنسوجات الأمازيغية. كل شرابة معقودة بشكل فردي، مما يجعل كل مزهرية مختلفة قليلًا عن الأخرى."},
-    coffretRose:{fr:"L'écrin est pressé à partir de carton recyclé recouvert d'un similicuir rose pâle, avec une finition dorée à chaud. La rose sous dôme est stabilisée pour garder son éclat plusieurs mois sans eau ni entretien. Le petit tiroir permet d'y glisser un bijou ou un mot doux.",
-                 en:"The box is pressed from recycled cardboard covered in a pale pink faux leather, with a hot-stamped gilded finish. The rose under the dome is preserved to keep its bloom for months with no water or care needed. The small drawer is perfect for slipping in a piece of jewelry or a note.",
-                 ar:"العلبة مضغوطة من كرتون معاد تدويره مغطى بجلد صناعي وردي فاتح، مع لمسة نهائية مذهبة بالحرارة. الوردة تحت القبة محفوظة لتحتفظ ببهائها لأشهر دون ماء أو عناية. الدرج الصغير مثالي لوضع مجوهرة أو رسالة صغيرة."},
-    lampeFeuillesDorees:{fr:"Chaque feuille est découpée dans du métal recyclé puis fixée une à une sur l'armature sphérique, avant une dorure appliquée entièrement à la main. Suspendue à sa chaîne, elle diffuse une lumière chaude et tamisée à travers les interstices entre les feuilles.",
-                          en:"Each leaf is cut from recycled metal and individually fixed onto the spherical frame, before the whole piece is hand-gilded. Hung from its chain, it casts a warm, dappled light through the gaps between the leaves.",
-                          ar:"كل ورقة مقصوصة من معدن معاد تدويره ومثبتة واحدة تلو الأخرى على الهيكل الكروي، قبل تذهيب القطعة بالكامل يدويًا. معلقة بسلسلتها، تبعث ضوءًا دافئًا ومرقّطًا عبر الفراغات بين الأوراق."},
-    keychainTrophy:{fr:"Moulé à partir de chutes de plastique recyclé fondues puis teintées dorées, ce mini trophée est fixé à un anneau et une chaînette métallique robustes. Un clin d'œil ludique à offrir aux passionnés de sport.",
-                    en:"Molded from melted, gold-tinted recycled plastic offcuts, this mini trophy is fixed to a sturdy keyring and chain. A playful little gift for any sports fan.",
-                    ar:"مصبوب من بقايا بلاستيك معاد تدويره مذابة وملونة بالذهبي، مثبتة بحلقة مفاتيح وسلسلة معدنية متينة. هدية صغيرة وممتعة لعشاق الرياضة."},
-    keychainGiraffe:{fr:"Chaque girafe est moulée à la main à partir de plastique recyclé coloré, puis poncée pour un toucher doux. Format compact, parfait pour un trousseau de clés ou un sac à dos.",
-                     en:"Each giraffe is hand-molded from colored recycled plastic, then sanded for a smooth touch. Compact size, perfect for a keyring or backpack.",
-                     ar:"كل زرافة مصبوبة يدويًا من بلاستيك معاد تدويره ملون، ثم مصنفرة لملمس ناعم. حجم صغير مثالي لحلقة المفاتيح أو الحقيبة."},
-    keychainVase:{fr:"Une réplique miniature de nos vases en plastique recyclé, façonnée avec le même souci du détail que nos pièces grand format. Chaque exemplaire porte de légères variations de teinte, comme les vases originaux.",
-                  en:"A miniature replica of our recycled-plastic vases, shaped with the same care as our full-size pieces. Each one carries slight shade variations, just like the original vases.",
-                  ar:"نسخة مصغرة من مزهرياتنا المصنوعة من البلاستيك المعاد تدويره، مشكّلة بنفس العناية التي تُولى لقطعنا الكبيرة. كل نسخة تحمل اختلافات طفيفة في اللون، تمامًا مثل المزهريات الأصلية."},
-    floorLamp:{fr:"L'armature en bois recyclé est habillée d'un tissu tissé main aux motifs berbères, à partir de chutes textiles récupérées. La douille standard E27 accepte la plupart des ampoules basse consommation.",
-               en:"The recycled-wood frame is dressed in a hand-woven fabric with Berber patterns, made from recovered textile offcuts. The standard E27 socket fits most low-energy bulbs.",
-               ar:"الهيكل الخشبي المعاد تدويره مكسو بنسيج منسوج يدويًا بزخارف أمازيغية، من بقايا قماش مسترجعة. المقبس القياسي E27 يناسب معظم المصابيح الموفرة للطاقة."},
-    clockWoven:{fr:"Le cadran est tressé fil à fil à partir de corde recyclée, puis orné de perles de bois et de petites pierres récupérées collées à la main. Mécanisme à quartz silencieux, pile AA non incluse.",
-                en:"The dial is braided strand by strand from recycled rope, then adorned with wooden beads and small reclaimed stones glued by hand. Silent quartz movement, AA battery not included.",
-                ar:"القرص مضفّر خيطًا بخيط من حبل معاد تدويره، ثم مزين بخرزات خشبية وأحجار صغيرة مسترجعة ملصقة يدويًا. آلية صامتة تعمل بالكوارتز، بطارية AA غير مرفقة."},
-    wallPlanter:{fr:"Découpé dans des chutes de bois recyclé puis poncé et huilé, ce support suspend un petit tube en verre récupéré, parfait pour faire raciner une bouture avant de la mettre en terre.",
-                 en:"Cut from recycled wood offcuts, then sanded and oiled, this support holds a small reclaimed-glass tube, perfect for rooting a cutting before potting it.",
-                 ar:"مقصوص من بقايا خشب معاد تدويره ثم مصنفر ومزيّت، يحمل هذا الحامل أنبوبًا زجاجيًا صغيرًا مسترجعًا، مثاليًا لتجذير عقلة نباتية قبل زراعتها."}
-  };
-  products.forEach(function(p){
-    var extra = longExtra[p.icon] || {fr:'',en:'',ar:''};
-    p.long = {
-      fr: p.desc.fr + ' ' + extra.fr,
-      en: p.desc.en + ' ' + extra.en,
-      ar: extra.ar
-    };
-  });
+  function updateCategories(){
+    var set = {};
+    products.forEach(function(p){ if(p.catKey) set[p.catKey] = true; });
+    var dynamicKeys = Object.keys(set);
+    if(dynamicKeys.length){
+      categoryKeys = ['all'].concat(dynamicKeys);
+    } else {
+      categoryKeys = ['all', 'vases', 'lighting', 'frames', 'storage', 'clocks', 'walldeco', 'keychains'];
+    }
+  }
+
+  function loadProducts(){
+    return fetch(API + '/products', { credentials: 'include' })
+      .then(function(res){
+        if(!res.ok) throw new Error('Failed to load products');
+        return res.json();
+      })
+      .then(function(data){
+        products = data || [];
+        updateCategories();
+        renderChips();
+        renderProducts();
+        renderFeatured();
+      })
+      .catch(function(err){
+        console.warn('API /products unavailable:', err);
+        products = [];
+        renderChips();
+        renderProducts();
+        renderFeatured();
+      });
+  }
 
   /* ---------------- STATE ---------------- */
   var state = {
@@ -691,7 +648,7 @@
   }
 
   function productById(id){
-    return products.filter(function(p){ return p.id === id; })[0];
+    return products.filter(function(p){ return Number(p.id) === Number(id); })[0];
   }
 
   /* ---------------- LANGUAGE ---------------- */
@@ -784,7 +741,7 @@
 
   /* ---------------- PRODUCTS RENDER ---------------- */
   function stockHTML(p){
-    if(p.stock <= 0){
+    if(!p || p.stock <= 0){
       return '<span class="stock-badge stock-out">' + t('stock_out') + '</span>';
     }
     if(p.stock <= 5){
@@ -794,12 +751,17 @@
   }
 
   function cardHTML(p, i){
+    if(!p) return '';
     var delay = Math.min((i || 0) * 0.05, 0.3).toFixed(2) + 's';
     var outOfStock = p.stock <= 0;
+    var catName = catLabels[p.catKey] ? pl(catLabels[p.catKey]) : (p.catKey || '');
     return '' +
-      '<div class="product-card animate-card-in" style="animation-delay:' + delay + '">' +
-        '<div class="product-thumb" data-details="' + p.id + '">' + thumbHTML(p) + '<span class="material-tag animate-badge-pulse rounded-full">♻ ' + pl(p.material) + '</span></div>' +
-        '<h3>' + pl(p.name) + '</h3>' +
+      '<div class="product-card" data-id="' + p.id + '">' +
+        '<div class="product-thumb" data-details="' + p.id + '">' +
+          thumbHTML(p) +
+          '<span class="product-origin-tag">' + pl(p.material) + '</span>' +
+        '</div>' +
+        '<h3 data-details="' + p.id + '">' + pl(p.name) + '</h3>' +
         '<p class="product-desc">' + pl(p.desc) + '</p>' +
         stockHTML(p) +
         '<button class="read-more-btn" data-details="' + p.id + '">' + t('read_more_btn') +
@@ -815,8 +777,11 @@
   }
 
   function renderChips(){
-    $('#chipRow').innerHTML = categoryKeys.map(function(k){
-      return '<button class="chip' + (k === state.cat ? ' active' : '') + '" data-cat="' + k + '">' + pl(catLabels[k]) + '</button>';
+    var row = $('#chipRow');
+    if(!row) return;
+    row.innerHTML = categoryKeys.map(function(k){
+      var label = catLabels[k] ? pl(catLabels[k]) : k;
+      return '<button class="chip' + (k === state.cat ? ' active' : '') + '" data-cat="' + k + '">' + label + '</button>';
     }).join('');
     $all('[data-cat]').forEach(function(b){
       b.addEventListener('click', function(){ state.cat = b.dataset.cat; renderProducts(); renderChips(); });
@@ -827,13 +792,26 @@
     var term = state.search.trim().toLowerCase();
     var list = products.filter(function(p){
       var matchCat = state.cat === 'all' || p.catKey === state.cat;
-      var haystack = (pl(p.name) + ' ' + pl(catLabels[p.catKey]) + ' ' + pl(p.material)).toLowerCase();
+      var catName = catLabels[p.catKey] ? pl(catLabels[p.catKey]) : (p.catKey || '');
+      var haystack = (pl(p.name) + ' ' + catName + ' ' + pl(p.material)).toLowerCase();
       var matchSearch = !term || haystack.indexOf(term) !== -1;
       return matchCat && matchSearch;
     });
     var apply = function(){
-      $('#productGrid').innerHTML = list.map(cardHTML).join('');
-      $('#emptyState').style.display = list.length ? 'none' : 'block';
+      var grid = $('#productGrid');
+      if(grid) grid.innerHTML = list.map(cardHTML).join('');
+      var empty = $('#emptyState');
+      if(empty){
+        if(!products.length){
+          empty.textContent = (lang === 'ar')
+            ? 'المتجر فارغ حاليًا. يرجى تسجيل الدخول إلى لوحة التحكم لإضافة المنتجات.'
+            : ((lang === 'en') ? 'The catalog is currently empty. Log in to the admin panel to add products.' : 'Le catalogue est actuellement vide. Connectez-vous à l\'espace Admin pour ajouter vos premiers produits.');
+          empty.style.display = 'block';
+        } else {
+          empty.textContent = t('empty_state');
+          empty.style.display = list.length ? 'none' : 'block';
+        }
+      }
     };
     if(document.startViewTransition){
       document.startViewTransition(apply);
@@ -843,8 +821,16 @@
   }
 
   function renderFeatured(){
-    var picks = [products[0], products[1], products[7]];
-    $('#homeFeatured').innerHTML = picks.map(cardHTML).join('');
+    var picks = products.slice(0, 3);
+    var el = $('#homeFeatured');
+    if(!el) return;
+    if(!picks.length){
+      el.innerHTML = '<div class="empty-state" style="grid-column:1/-1;text-align:center;padding:34px;color:var(--canopy-dark);">' +
+        (lang === 'ar' ? 'لا توجد منتجات حاليًا في هذا القسم.' : (lang === 'en' ? 'Our atelier catalog is currently being prepared.' : 'Les créations de l\'atelier sont actuellement en cours de préparation.')) +
+        '</div>';
+      return;
+    }
+    el.innerHTML = picks.map(cardHTML).join('');
   }
 
   // Single delegated listener handles every "Add" button, present or future —
@@ -862,8 +848,15 @@
     if(!p) return;
     $('#productPageMedia').innerHTML = thumbHTML(p);
     $('#productPageTitle').textContent = pl(p.name);
-    $('#productPageMaterial').textContent = '♻ ' + pl(p.material);
-    $('#productPageDesc').textContent = pl(p.long);
+    $('#productPageMaterial').textContent = pl(p.material);
+    var shortDesc = pl(p.desc);
+    var longDesc = pl(p.long);
+    var fullDesc = (shortDesc && longDesc && shortDesc !== longDesc)
+      ? (shortDesc + '\n\n' + longDesc)
+      : (longDesc || shortDesc);
+    var descEl = $('#productPageDesc');
+    descEl.textContent = fullDesc;
+    descEl.style.whiteSpace = 'pre-line';
     $('#productPageStock').innerHTML = stockHTML(p);
     $('#productPagePrice').textContent = fmt(p.price);
     var addBtn = $('#productPageAdd');
@@ -971,7 +964,15 @@
   function renderCart(){
     var ids = Object.keys(state.cart);
     var count = 0, total = 0;
-    ids.forEach(function(id){ count += state.cart[id]; total += state.cart[id] * productById(parseInt(id,10)).price; });
+    ids.forEach(function(id){
+      var p = productById(parseInt(id, 10));
+      if(p){
+        count += state.cart[id];
+        total += state.cart[id] * p.price;
+      } else {
+        delete state.cart[id];
+      }
+    });
     var badge = $('#cartCount');
     if(badge.textContent !== String(count)){
       badge.textContent = count;
@@ -1119,7 +1120,7 @@
     var btn = $('#checkoutBtn');
     btn.disabled = true;
 
-    fetch('/api/orders', {
+    fetch(API + '/orders', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -1130,11 +1131,9 @@
     }).then(function(){
       btn.disabled = false;
       finishCheckout(paymentMethod);
-    }).catch(function(){
-      // Backend not reachable (e.g. static preview without Flask running) —
-      // fall back to a local simulated confirmation so the demo still works.
+    }).catch(function(err){
       btn.disabled = false;
-      finishCheckout(paymentMethod);
+      toast(err.message || 'Erreur lors de la commande');
     });
   });
 
@@ -1151,27 +1150,115 @@
   $('#loginForm').addEventListener('submit', function(e){
     e.preventDefault();
     var email = $('#loginEmail').value.trim();
-    if(!email) return;
-    state.user = { name: email.split('@')[0], email: email };
-    renderProfile();
-    toast(t('toast_login_success'));
+    var password = $('#loginPass').value;
+    if(!email || !password) return;
+
+    var submitBtn = $('#loginForm button[type="submit"]');
+    submitBtn.disabled = true;
+
+    fetch(API + '/auth/login', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, password: password })
+    }).then(function(res){
+      return res.json().then(function(data){
+        if(!res.ok) throw new Error(data.error || 'Identifiants invalides');
+        return data;
+      });
+    }).then(function(user){
+      submitBtn.disabled = false;
+      state.user = {
+        id: user.id,
+        name: user.fullName || user.email.split('@')[0],
+        email: user.email,
+        isAdmin: !!user.isAdmin
+      };
+      renderProfile();
+      toast(t('toast_login_success'));
+      $('#loginPass').value = '';
+    }).catch(function(err){
+      submitBtn.disabled = false;
+      toast(err.message || 'Identifiants invalides');
+    });
   });
 
   $('#signupForm').addEventListener('submit', function(e){
     e.preventDefault();
     var name = $('#suName').value.trim();
     var email = $('#suEmail').value.trim();
-    if(!name || !email) return;
-    state.user = { name: name, email: email };
-    renderProfile();
-    toast(tf('toast_welcome', {name: name}));
+    var password = $('#suPass').value;
+    if(!name || !email || !password){
+      toast('Veuillez remplir tous les champs');
+      return;
+    }
+    if(password.length < 6){
+      toast('Le mot de passe doit contenir au moins 6 caractères');
+      return;
+    }
+
+    var submitBtn = $('#signupForm button[type="submit"]');
+    submitBtn.disabled = true;
+
+    fetch(API + '/auth/signup', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fullName: name, email: email, password: password })
+    }).then(function(res){
+      return res.json().then(function(data){
+        if(!res.ok) throw new Error(data.error || "Erreur lors de l'inscription");
+        return data;
+      });
+    }).then(function(user){
+      submitBtn.disabled = false;
+      state.user = {
+        id: user.id,
+        name: user.fullName || name,
+        email: user.email,
+        isAdmin: !!user.isAdmin
+      };
+      renderProfile();
+      toast(tf('toast_welcome', {name: state.user.name}));
+      $('#suPass').value = '';
+    }).catch(function(err){
+      submitBtn.disabled = false;
+      toast(err.message || "Erreur lors de la création du compte");
+    });
   });
 
   $('#logoutBtn').addEventListener('click', function(){
-    state.user = null;
-    renderProfile();
-    toast(t('toast_logout'));
+    fetch(API + '/auth/logout', {
+      method: 'POST',
+      credentials: 'include'
+    }).finally(function(){
+      state.user = null;
+      renderProfile();
+      toast(t('toast_logout'));
+    });
   });
+
+  function checkAuth(){
+    return fetch(API + '/auth/me', { credentials: 'include' })
+      .then(function(res){ return res.ok ? res.json() : null; })
+      .then(function(data){
+        if(data && data.user){
+          state.user = {
+            id: data.user.id,
+            name: data.user.fullName || data.user.email.split('@')[0],
+            email: data.user.email,
+            isAdmin: !!data.user.isAdmin
+          };
+        } else {
+          state.user = null;
+        }
+        renderProfile();
+      })
+      .catch(function(){
+        state.user = null;
+        renderProfile();
+      });
+  }
 
   function renderProfile(){
     if(state.user){
@@ -1180,6 +1267,24 @@
       $('#avatarInitial').textContent = state.user.name.charAt(0).toUpperCase();
       $('#accountGreeting').textContent = tf('profile_greeting', {name: state.user.name});
       $('#accountEmail').textContent = state.user.email;
+
+      var adminLink = $('#profileAdminLink');
+      if(state.user.isAdmin){
+        if(!adminLink){
+          adminLink = document.createElement('a');
+          adminLink.id = 'profileAdminLink';
+          adminLink.href = 'admin.html';
+          adminLink.className = 'btn btn-primary btn-block';
+          adminLink.style.marginTop = '12px';
+          adminLink.style.textAlign = 'center';
+          adminLink.style.textDecoration = 'none';
+          adminLink.textContent = "⚙ Accéder à l'espace Admin";
+          $('#logoutBtn').parentNode.insertBefore(adminLink, $('#logoutBtn'));
+        }
+        adminLink.style.display = 'block';
+      } else if(adminLink){
+        adminLink.style.display = 'none';
+      }
     } else {
       $('#authBlock').style.display = 'block';
       $('#accountBlock').style.display = 'none';
@@ -1290,7 +1395,7 @@
 
     var typingEl = showTyping();
 
-    fetch('/api/chat', {
+    fetch(API + '/chat', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -1381,18 +1486,6 @@
     io.observe(grid);
   }
 
-  /* ---------------- CTA SHIMMER (Tailwind-driven) ---------------- */
-  function injectShimmer(){
-    $all('.btn-primary').forEach(function(btn){
-      if(btn.querySelector('.shimmer-sweep')) return;
-      btn.classList.add('relative', 'overflow-hidden', 'isolate');
-      var span = document.createElement('span');
-      span.className = 'shimmer-sweep pointer-events-none absolute top-0 left-[-60%] w-2/5 h-full ' +
-        'bg-[linear-gradient(115deg,transparent,rgba(255,255,255,.55),transparent)] -skew-x-[18deg] animate-shimmer z-[1]';
-      btn.appendChild(span);
-    });
-  }
-
   /* ---------------- ANIMATED STAT COUNTERS (@property --num) ---------------- */
   function initStatCounters(){
     var nums = $all('.stat-num');
@@ -1457,72 +1550,14 @@
     update();
   }
 
-  /* ---------------- SCROLL PROGRESS BAR ---------------- */
-  function initScrollProgress(){
-    var bar = document.getElementById('scrollProgress');
-    if(!bar) return;
-    function update(){
-      var scrollTop = window.scrollY || document.documentElement.scrollTop;
-      var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      var pct = height > 0 ? (scrollTop / height) * 100 : 0;
-      bar.style.width = pct + '%';
-    }
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    update();
-  }
-
-  /* ---------------- AMBIENT CURSOR-FOLLOW GLOW ---------------- */
-  function initCursorGlow(){
-    var glow = document.getElementById('cursorGlow');
-    if(!glow || !window.matchMedia('(pointer:fine)').matches) return;
-    var raf = null, tx = 0, ty = 0, cx = 0, cy = 0, visible = false;
-    function loop(){
-      cx += (tx - cx) * 0.12;
-      cy += (ty - cy) * 0.12;
-      glow.style.transform = 'translate(' + (cx - 170) + 'px,' + (cy - 170) + 'px)';
-      raf = requestAnimationFrame(loop);
-    }
-    document.addEventListener('pointermove', function(e){
-      tx = e.clientX; ty = e.clientY;
-      if(!visible){ visible = true; glow.style.opacity = '1'; }
-      if(!raf) loop();
-    });
-    document.addEventListener('pointerleave', function(){ glow.style.opacity = '0'; });
-  }
-
-  /* ---------------- MAGNETIC BUTTONS ---------------- */
-  function initMagneticButtons(){
-    document.addEventListener('pointermove', function(e){
-      var btn = e.target.closest ? e.target.closest('.btn-primary, .btn-outline') : null;
-      $all('.btn-magnet-active').forEach(function(b){
-        if(b !== btn){ b.style.transform = ''; b.classList.remove('btn-magnet-active'); }
-      });
-      if(!btn) return;
-      var r = btn.getBoundingClientRect();
-      var mx = e.clientX - (r.left + r.width / 2);
-      var my = e.clientY - (r.top + r.height / 2);
-      btn.classList.add('btn-magnet-active');
-      btn.style.transform = 'translate(' + (mx * 0.18).toFixed(1) + 'px,' + (my * 0.3).toFixed(1) + 'px)';
-    });
-    document.addEventListener('pointerout', function(e){
-      var btn = e.target.closest ? e.target.closest('.btn-primary, .btn-outline') : null;
-      if(btn){ btn.style.transform = ''; btn.classList.remove('btn-magnet-active'); }
-    });
-  }
-
   /* ---------------- RECYCLING VIDEO SECTION ---------------- */
   function initRecyclingVideo(){
-    // Handles every .video-hero section on the page (recycling reel, product
-    // showcase reel, and any future ones) — each reveals its <video> only
-    // once it proves it can actually play; otherwise the CSS fallback
-    // animation keeps the section looking alive.
     document.querySelectorAll('.video-hero').forEach(function(wrap){
       var video = wrap.querySelector('.video-hero-media');
       if(!video) return;
       video.addEventListener('canplay', function(){
         wrap.classList.add('video-ready');
-        video.play().catch(function(){ /* autoplay blocked — poster/fallback still shows */ });
+        video.play().catch(function(){ /* autoplay blocked — poster still shows */ });
       });
       video.addEventListener('error', function(){
         wrap.classList.remove('video-ready');
@@ -1531,65 +1566,27 @@
     });
   }
 
-  /* ---------------- FLOATING VASE MASCOT: reacts to cursor movement ---------------- */
-  (function initFloatingVase(){
-    var img = document.getElementById('floatingVaseImg');
-    if(!img) return;
-    var raf = null;
-    function onMove(e){
-      if(raf) return;
-      raf = requestAnimationFrame(function(){
-        raf = null;
-        var r = img.getBoundingClientRect();
-        var cx = r.left + r.width / 2;
-        var cy = r.top + r.height / 2;
-        var dx = e.clientX - cx;
-        var dy = e.clientY - cy;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        // Only react when the cursor is reasonably close, so the mascot
-        // doesn't jitter based on activity happening far across the page.
-        var radius = 260;
-        if(dist > radius){
-          img.style.transform = '';
-          return;
-        }
-        var strength = (1 - dist / radius);
-        var tx = (dx / radius) * 16 * strength;
-        var ty = (dy / radius) * 16 * strength;
-        var rot = (dx / radius) * -10 * strength;
-        var scale = 1 + 0.06 * strength;
-        img.style.transform = 'translate(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px) rotate(' + rot.toFixed(1) + 'deg) scale(' + scale.toFixed(2) + ')';
-      });
-    }
-    document.addEventListener('pointermove', onMove);
-    document.addEventListener('pointerleave', function(){ img.style.transform = ''; });
-  })();
-
   /* ---------------- INIT ---------------- */
   applyStaticTranslations();
+  loadProducts();
+  checkAuth();
   renderChips();
-  renderProducts();
-  renderFeatured();
   renderCart();
   renderProfile();
   initScrollReveal();
-  injectShimmer();
   initStatCounters();
   initStepsLine();
-  initScrollProgress();
-  initHeroParallax();
   initRecyclingVideo();
   initThemeToggle();
-  initCursorGlow();
-  initMagneticButtons();
 
-  var minTimer = new Promise(function(res){ setTimeout(res, 1400); });
+  var minTimer = new Promise(function(res){ setTimeout(res, 80); });
   var pageLoad = new Promise(function(res){
     if(document.readyState === 'complete') res();
     else window.addEventListener('load', res);
   });
   Promise.all([minTimer, pageLoad]).then(function(){
-    $('#loader').classList.add('hide');
+    var loader = $('#loader');
+    if(loader) loader.classList.add('hide');
     document.body.classList.add('page-revealed');
   });
 

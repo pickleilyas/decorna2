@@ -1,6 +1,16 @@
-__pycache__/
-*.pyc
-venv/
-.venv/
-decorna.db
+# Environment and secrets
 .env
+*.env.local
+
+# Composer dependencies (if used)
+/vendor/
+
+# Server and error logs
+error_log
+*.log
+
+# Operating system / IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
